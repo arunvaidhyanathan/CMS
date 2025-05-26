@@ -99,12 +99,13 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Override
     public void deployProcesses() {
-        logger.info("Deploying BPMN processes and DMN tables");
+        logger.info("Deploying BPMN processes | DMN tables | Forms");
         
         try {
             zeebeClient.newDeployResourceCommand()
                     .addResourceFromClasspath("processes/cms_workflow.bpmn")
                     .addResourceFromClasspath("processes/cms_wf.dmn")
+                    .addResourceFromClasspath("form/*")
                     .send()
                     .join();
             
@@ -118,7 +119,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Override
     public Map<String, Object> getProcessVariables(Long processInstanceKey) {
-        // Note: This is a placeholder. In Zeebe, you typically get variables through job workers
+        // This is a placeholder for Zeebe, we can typically get variables through job workers
         // or by querying the process instance through Operate API
         return new HashMap<>();
     }
