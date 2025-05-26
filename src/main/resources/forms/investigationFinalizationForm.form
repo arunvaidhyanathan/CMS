@@ -1,0 +1,316 @@
+{
+  "type": "default",
+  "id": "Form_1e8czfc",
+  "components": [{
+  "components": [
+    {
+      "label": "Investigation Completion Details",
+      "type": "group",
+      "layout": {
+        "row": "Row_completion_details",
+        "columns": null
+      },
+      "id": "Field_completion_details_group",
+      "components": [
+        {
+          "label": "Case Number",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_case_num_final",
+            "columns": 4
+          },
+          "id": "Field_case_num_final",
+          "key": "caseNumber",
+          "readonly": true
+        },
+        {
+          "label": "Investigation Completion Date",
+          "type": "datetime",
+          "layout": {
+            "row": "Row_completion_date",
+            "columns": 4
+          },
+          "id": "Field_completion_date",
+          "key": "investigationCompletionDate",
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "label": "Total Investigation Days",
+          "type": "number",
+          "layout": {
+            "row": "Row_total_days",
+            "columns": 4
+          },
+          "id": "Field_total_days",
+          "key": "totalInvestigationDays",
+          "validate": {
+            "required": true,
+            "min": 1
+          }
+        }
+      ]
+    },
+    {
+      "label": "Investigation Findings",
+      "type": "group",
+      "layout": {
+        "row": "Row_findings_group",
+        "columns": null
+      },
+      "id": "Field_findings_group",
+      "components": [
+        {
+          "label": "Primary Finding",
+          "type": "select",
+          "layout": {
+            "row": "Row_primary_finding",
+            "columns": 6
+          },
+          "id": "Field_primary_finding",
+          "key": "primaryFinding",
+          "validate": {
+            "required": true
+          },
+          "values": [
+            {"label": "Substantiated", "value": "SUBSTANTIATED"},
+            {"label": "Partially Substantiated", "value": "PARTIALLY_SUBSTANTIATED"},
+            {"label": "Unsubstantiated", "value": "UNSUBSTANTIATED"},
+            {"label": "Inconclusive", "value": "INCONCLUSIVE"}
+          ]
+        },
+        {
+          "label": "Confidence Level",
+          "type": "select",
+          "layout": {
+            "row": "Row_confidence_level",
+            "columns": 6
+          },
+          "id": "Field_confidence_level",
+          "key": "confidenceLevel",
+          "validate": {
+            "required": true
+          },
+          "values": [
+            {"label": "Very High", "value": "VERY_HIGH"},
+            {"label": "High", "value": "HIGH"},
+            {"label": "Medium", "value": "MEDIUM"},
+            {"label": "Low", "value": "LOW"}
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Executive Summary",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_executive_summary",
+        "columns": null
+      },
+      "id": "Field_executive_summary",
+      "key": "executiveSummary",
+      "validate": {
+        "required": true,
+        "minLength": 200
+      },
+      "description": "Provide a comprehensive executive summary of the investigation and findings (minimum 200 characters)"
+    },
+    {
+      "label": "Detailed Findings",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_detailed_findings",
+        "columns": null
+      },
+      "id": "Field_detailed_findings",
+      "key": "detailedFindings",
+      "validate": {
+        "required": true
+      },
+      "description": "Provide detailed findings, evidence analysis, and conclusions"
+    },
+    {
+      "label": "Recommendations",
+      "type": "group",
+      "layout": {
+        "row": "Row_recommendations_group",
+        "columns": null
+      },
+      "id": "Field_recommendations_group",
+      "components": [
+        {
+          "label": "Disciplinary Action Recommended",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_disciplinary_action",
+            "columns": 6
+          },
+          "id": "Field_disciplinary_action",
+          "key": "disciplinaryActionRecommended"
+        },
+        {
+          "label": "Policy Changes Recommended",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_policy_changes",
+            "columns": 6
+          },
+          "id": "Field_policy_changes",
+          "key": "policyChangesRecommended"
+        }
+      ]
+    },
+    {
+      "label": "Recommended Actions",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_recommended_actions",
+        "columns": null
+      },
+      "id": "Field_recommended_actions",
+      "key": "recommendedActions",
+      "validate": {
+        "required": true
+      },
+      "description": "Detail specific recommended actions and remedial measures"
+    },
+    {
+      "label": "Follow-up Required",
+      "type": "group",
+      "layout": {
+        "row": "Row_followup_group",
+        "columns": null
+      },
+      "id": "Field_followup_group",
+      "components": [
+        {
+          "label": "Follow-up Actions Required",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_followup_required",
+            "columns": 6
+          },
+          "id": "Field_followup_required",
+          "key": "followupRequired"
+        },
+        {
+          "label": "Follow-up Timeline (Days)",
+          "type": "number",
+          "layout": {
+            "row": "Row_followup_timeline",
+            "columns": 6
+          },
+          "id": "Field_followup_timeline",
+          "key": "followupTimelineDays",
+          "validate": {
+            "min": 1
+          }
+        }
+      ]
+    },
+    {
+      "label": "Investigation Metrics",
+      "type": "group",
+      "layout": {
+        "row": "Row_metrics_group",
+        "columns": null
+      },
+      "id": "Field_metrics_group",
+      "components": [
+        {
+          "label": "Total Hours Spent",
+          "type": "number",
+          "layout": {
+            "row": "Row_total_hours",
+            "columns": 6
+          },
+          "id": "Field_total_hours",
+          "key": "totalHoursSpent",
+          "validate": {
+            "required": true,
+            "min": 1
+          }
+        },
+        {
+          "label": "Total Cost ($)",
+          "type": "number",
+          "layout": {
+            "row": "Row_total_cost",
+            "columns": 6
+          },
+          "id": "Field_total_cost",
+          "key": "totalCost",
+          "validate": {
+            "min": 0
+          }
+        }
+      ]
+    },
+    {
+      "label": "Quality Assurance",
+      "type": "group",
+      "layout": {
+        "row": "Row_qa_group",
+        "columns": null
+      },
+      "id": "Field_qa_group",
+      "components": [
+        {
+          "label": "Investigation Quality Rating",
+          "type": "select",
+          "layout": {
+            "row": "Row_quality_rating",
+            "columns": 6
+          },
+          "id": "Field_quality_rating",
+          "key": "investigationQualityRating",
+          "validate": {
+            "required": true
+          },
+          "values": [
+            {"label": "Excellent", "value": "EXCELLENT"},
+            {"label": "Good", "value": "GOOD"},
+            {"label": "Satisfactory", "value": "SATISFACTORY"},
+            {"label": "Needs Improvement", "value": "NEEDS_IMPROVEMENT"}
+          ]
+        },
+        {
+          "label": "Reviewed By",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_reviewed_by",
+            "columns": 6
+          },
+          "id": "Field_reviewed_by",
+          "key": "reviewedBy",
+          "validate": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "label": "Submit Final Investigation Report",
+      "action": "submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_submit_final",
+        "columns": null
+      },
+      "id": "Field_submit_final"
+    }
+  ],
+  "type": "default",
+  "id": "investigationFinalizationForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.35.0"
+  },
+  "schemaVersion": 18
+}],
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0"
+}

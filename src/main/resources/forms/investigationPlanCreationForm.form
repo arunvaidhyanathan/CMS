@@ -1,0 +1,280 @@
+{
+  "type": "default",
+  "id": "Form_0tvrvrn",
+  "components": [{
+  "components": [
+    {
+      "label": "Investigation Plan Overview",
+      "type": "group",
+      "layout": {
+        "row": "Row_plan_overview",
+        "columns": null
+      },
+      "id": "Field_plan_overview_group",
+      "components": [
+        {
+          "label": "Case Number",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_case_num_plan",
+            "columns": 4
+          },
+          "id": "Field_case_num_plan",
+          "key": "caseNumber",
+          "readonly": true
+        },
+        {
+          "label": "Primary Investigator",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_primary_inv",
+            "columns": 4
+          },
+          "id": "Field_primary_inv",
+          "key": "primaryInvestigator",
+          "readonly": true
+        },
+        {
+          "label": "Plan Creation Date",
+          "type": "datetime",
+          "layout": {
+            "row": "Row_plan_date",
+            "columns": 4
+          },
+          "id": "Field_plan_date",
+          "key": "planCreationDate",
+          "validate": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "label": "Investigation Objectives",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_objectives",
+        "columns": null
+      },
+      "id": "Field_objectives",
+      "key": "investigationObjectives",
+      "validate": {
+        "required": true,
+        "minLength": 100
+      },
+      "description": "Define clear, measurable objectives for the investigation (minimum 100 characters)"
+    },
+    {
+      "label": "Investigation Scope",
+      "type": "group",
+      "layout": {
+        "row": "Row_scope_group",
+        "columns": null
+      },
+      "id": "Field_scope_group",
+      "components": [
+        {
+          "label": "Scope Description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_scope_description",
+            "columns": null
+          },
+          "id": "Field_scope_description",
+          "key": "scopeDescription",
+          "validate": {
+            "required": true
+          },
+          "description": "Define what is included and excluded from the investigation"
+        },
+        {
+          "label": "Time Period Under Investigation",
+          "type": "group",
+          "layout": {
+            "row": "Row_time_period",
+            "columns": null
+          },
+          "id": "Field_time_period_group",
+          "components": [
+            {
+              "label": "From Date",
+              "type": "datetime",
+              "layout": {
+                "row": "Row_from_date",
+                "columns": 6
+              },
+              "id": "Field_from_date",
+              "key": "investigationFromDate",
+              "validate": {
+                "required": true
+              }
+            },
+            {
+              "label": "To Date",
+              "type": "datetime",
+              "layout": {
+                "row": "Row_to_date",
+                "columns": 6
+              },
+              "id": "Field_to_date",
+              "key": "investigationToDate",
+              "validate": {
+                "required": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Investigation Methods",
+      "type": "group",
+      "layout": {
+        "row": "Row_methods_group",
+        "columns": null
+      },
+      "id": "Field_methods_group",
+      "components": [
+        {
+          "label": "Document Review Required",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_document_review",
+            "columns": 4
+          },
+          "id": "Field_document_review",
+          "key": "documentReviewRequired"
+        },
+        {
+          "label": "Interviews Required",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_interviews",
+            "columns": 4
+          },
+          "id": "Field_interviews",
+          "key": "interviewsRequired"
+        },
+        {
+          "label": "Digital Forensics Required",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_digital_forensics",
+            "columns": 4
+          },
+          "id": "Field_digital_forensics",
+          "key": "digitalForensicsRequired"
+        }
+      ]
+    },
+    {
+      "label": "Key Personnel to Interview",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_key_personnel",
+        "columns": null
+      },
+      "id": "Field_key_personnel",
+      "key": "keyPersonnelToInterview",
+      "description": "List key personnel that need to be interviewed (one per line)"
+    },
+    {
+      "label": "Evidence and Documentation",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_evidence_docs",
+        "columns": null
+      },
+      "id": "Field_evidence_docs",
+      "key": "evidenceAndDocumentation",
+      "validate": {
+        "required": true
+      },
+      "description": "List types of evidence and documentation to be collected and analyzed"
+    },
+    {
+      "label": "Investigation Timeline",
+      "type": "group",
+      "layout": {
+        "row": "Row_timeline_group",
+        "columns": null
+      },
+      "id": "Field_timeline_group",
+      "components": [
+        {
+          "label": "Estimated Duration (Days)",
+          "type": "number",
+          "layout": {
+            "row": "Row_duration",
+            "columns": 6
+          },
+          "id": "Field_duration",
+          "key": "estimatedDurationDays",
+          "validate": {
+            "required": true,
+            "min": 1,
+            "max": 365
+          }
+        },
+        {
+          "label": "Key Milestones",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_milestones",
+            "columns": 6
+          },
+          "id": "Field_milestones",
+          "key": "keyMilestones",
+          "description": "List major milestones and target dates"
+        }
+      ]
+    },
+    {
+      "label": "Risk Assessment",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_risk_assessment",
+        "columns": null
+      },
+      "id": "Field_risk_assessment",
+      "key": "riskAssessment",
+      "validate": {
+        "required": true
+      },
+      "description": "Identify potential risks, challenges, and mitigation strategies"
+    },
+    {
+      "label": "Resource Requirements",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_resource_requirements",
+        "columns": null
+      },
+      "id": "Field_resource_requirements",
+      "key": "resourceRequirements",
+      "description": "Detail additional resources, tools, or support needed"
+    },
+    {
+      "label": "Submit Plan for Review",
+      "action": "submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_submit_plan",
+        "columns": null
+      },
+      "id": "Field_submit_plan"
+    }
+  ],
+  "type": "default",
+  "id": "investigationPlanCreationForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.35.0"
+  },
+  "schemaVersion": 18
+}],
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0"
+}

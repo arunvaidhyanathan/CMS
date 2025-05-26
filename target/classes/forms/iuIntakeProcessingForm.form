@@ -1,0 +1,177 @@
+{
+  "type": "default",
+  "id": "Form_10ulfi5",
+  "components": [{
+  "components": [
+    {
+      "label": "Case Processing Information",
+      "type": "group",
+      "layout": {
+        "row": "Row_processing_info",
+        "columns": null
+      },
+      "id": "Field_processing_info_group",
+      "components": [
+        {
+          "label": "Case Number",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_case_num_processing",
+            "columns": 4
+          },
+          "id": "Field_case_num_processing",
+          "key": "caseNumber",
+          "readonly": true
+        },
+        {
+          "label": "Assigned Team",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_assigned_team",
+            "columns": 4
+          },
+          "id": "Field_assigned_team",
+          "key": "investigationTeam",
+          "readonly": true
+        },
+        {
+          "label": "Complexity Level",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_complexity_level",
+            "columns": 4
+          },
+          "id": "Field_complexity_level",
+          "key": "caseComplexity",
+          "readonly": true
+        }
+      ]
+    },
+    {
+      "label": "Initial Processing Assessment",
+      "type": "group",
+      "layout": {
+        "row": "Row_initial_processing",
+        "columns": null
+      },
+      "id": "Field_initial_processing_group",
+      "components": [
+        {
+          "label": "Case Feasibility",
+          "type": "select",
+          "layout": {
+            "row": "Row_feasibility",
+            "columns": 6
+          },
+          "id": "Field_feasibility",
+          "key": "caseFeasibility",
+          "validate": {
+            "required": true
+          },
+          "values": [
+            {"label": "Highly Feasible", "value": "HIGHLY_FEASIBLE"},
+            {"label": "Feasible", "value": "FEASIBLE"},
+            {"label": "Challenging", "value": "CHALLENGING"},
+            {"label": "Not Feasible", "value": "NOT_FEASIBLE"}
+          ]
+        },
+        {
+          "label": "Evidence Availability",
+          "type": "select",
+          "layout": {
+            "row": "Row_evidence",
+            "columns": 6
+          },
+          "id": "Field_evidence",
+          "key": "evidenceAvailability",
+          "validate": {
+            "required": true
+          },
+          "values": [
+            {"label": "Abundant Evidence", "value": "ABUNDANT"},
+            {"label": "Sufficient Evidence", "value": "SUFFICIENT"},
+            {"label": "Limited Evidence", "value": "LIMITED"},
+            {"label": "Insufficient Evidence", "value": "INSUFFICIENT"}
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Processing Decision",
+      "type": "select",
+      "layout": {
+        "row": "Row_processing_decision",
+        "columns": 6
+      },
+      "id": "Field_processing_decision",
+      "key": "processingDecision",
+      "validate": {
+        "required": true
+      },
+      "values": [
+        {"label": "Proceed with Full Investigation", "value": "PROCEED_FULL"},
+        {"label": "Proceed with Limited Investigation", "value": "PROCEED_LIMITED"},
+        {"label": "Refer to Alternative Resolution", "value": "REFER_ALTERNATIVE"},
+        {"label": "Close Case - Insufficient Merit", "value": "CLOSE_INSUFFICIENT"}
+      ]
+    },
+    {
+      "label": "Processing Justification",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_processing_justification",
+        "columns": null
+      },
+      "id": "Field_processing_justification",
+      "key": "processingJustification",
+      "validate": {
+        "required": true
+      },
+      "description": "Provide detailed justification for the processing decision"
+    },
+    {
+      "label": "Recommended Investigation Approach",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_investigation_approach",
+        "columns": null
+      },
+      "id": "Field_investigation_approach",
+      "key": "recommendedApproach",
+      "description": "Outline recommended investigation methodology and approach"
+    },
+    {
+      "label": "Special Considerations",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_special_considerations",
+        "columns": null
+      },
+      "id": "Field_special_considerations",
+      "key": "specialConsiderations",
+      "description": "Note any special considerations, sensitivities, or constraints"
+    },
+    {
+      "label": "Submit Processing Assessment",
+      "action": "submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_submit_processing",
+        "columns": null
+      },
+      "id": "Field_submit_processing"
+    }
+  ],
+  "type": "default",
+  "id": "iuIntakeProcessingForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.35.0"
+  },
+  "schemaVersion": 18
+}],
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0"
+}

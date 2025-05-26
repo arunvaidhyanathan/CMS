@@ -1,0 +1,240 @@
+{
+  "type": "default",
+  "id": "Form_1jwxk98",
+  "components": [{
+  "components": [
+    {
+      "label": "Active Investigation Status",
+      "type": "group",
+      "layout": {
+        "row": "Row_investigation_status",
+        "columns": null
+      },
+      "id": "Field_investigation_status_group",
+      "components": [
+        {
+          "label": "Case Number",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_case_num_active",
+            "columns": 4
+          },
+          "id": "Field_case_num_active",
+          "key": "caseNumber",
+          "readonly": true
+        },
+        {
+          "label": "Investigation Start Date",
+          "type": "datetime",
+          "layout": {
+            "row": "Row_actual_start",
+            "columns": 4
+          },
+          "id": "Field_actual_start",
+          "key": "actualStartDate",
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "label": "Current Status",
+          "type": "select",
+          "layout": {
+            "row": "Row_current_status",
+            "columns": 4
+          },
+          "id": "Field_current_status",
+          "key": "investigationStatus",
+          "validate": {
+            "required": true
+          },
+          "values": [
+            {"label": "In Progress", "value": "IN_PROGRESS"},
+            {"label": "Pending Information", "value": "PENDING_INFO"},
+            {"label": "Awaiting Interviews", "value": "AWAITING_INTERVIEWS"},
+            {"label": "Evidence Analysis", "value": "EVIDENCE_ANALYSIS"},
+            {"label": "Near Completion", "value": "NEAR_COMPLETION"}
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Investigation Activities Completed",
+      "type": "group",
+      "layout": {
+        "row": "Row_activities_completed",
+        "columns": null
+      },
+      "id": "Field_activities_completed_group",
+      "components": [
+        {
+          "label": "Document Review Completed",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_doc_review_complete",
+            "columns": 4
+          },
+          "id": "Field_doc_review_complete",
+          "key": "documentReviewCompleted"
+        },
+        {
+          "label": "Interviews Completed",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_interviews_complete",
+            "columns": 4
+          },
+          "id": "Field_interviews_complete",
+          "key": "interviewsCompleted"
+        },
+        {
+          "label": "Digital Forensics Completed",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_forensics_complete",
+            "columns": 4
+          },
+          "id": "Field_forensics_complete",
+          "key": "digitalForensicsCompleted"
+        }
+      ]
+    },
+    {
+      "label": "Progress Summary",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_progress_summary",
+        "columns": null
+      },
+      "id": "Field_progress_summary",
+      "key": "progressSummary",
+      "validate": {
+        "required": true
+      },
+      "description": "Provide summary of investigation progress and key findings to date"
+    },
+    {
+      "label": "Evidence Collected",
+      "type": "group",
+      "layout": {
+        "row": "Row_evidence_collected",
+        "columns": null
+      },
+      "id": "Field_evidence_collected_group",
+      "components": [
+        {
+          "label": "Number of Documents Reviewed",
+          "type": "number",
+          "layout": {
+            "row": "Row_docs_reviewed",
+            "columns": 6
+          },
+          "id": "Field_docs_reviewed",
+          "key": "documentsReviewed",
+          "validate": {
+            "min": 0
+          }
+        },
+        {
+          "label": "Number of Interviews Conducted",
+          "type": "number",
+          "layout": {
+            "row": "Row_interviews_conducted",
+            "columns": 6
+          },
+          "id": "Field_interviews_conducted",
+          "key": "interviewsConducted",
+          "validate": {
+            "min": 0
+          }
+        }
+      ]
+    },
+    {
+      "label": "Key Evidence Summary",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_key_evidence",
+        "columns": null
+      },
+      "id": "Field_key_evidence",
+      "key": "keyEvidenceSummary",
+      "validate": {
+        "required": true
+      },
+      "description": "Summarize key evidence and its significance"
+    },
+    {
+      "label": "Outstanding Actions",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_outstanding_actions",
+        "columns": null
+      },
+      "id": "Field_outstanding_actions",
+      "key": "outstandingActions",
+      "description": "List any remaining actions or pending activities"
+    },
+    {
+      "label": "Challenges Encountered",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_challenges",
+        "columns": null
+      },
+      "id": "Field_challenges",
+      "key": "challengesEncountered",
+      "description": "Document any challenges or obstacles encountered"
+    },
+    {
+      "label": "Estimated Completion Date",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_estimated_completion",
+        "columns": 6
+      },
+      "id": "Field_estimated_completion",
+      "key": "estimatedCompletionDate",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Investigation Completion Percentage",
+      "type": "number",
+      "layout": {
+        "row": "Row_completion_percentage",
+        "columns": 6
+      },
+      "id": "Field_completion_percentage",
+      "key": "completionPercentage",
+      "validate": {
+        "required": true,
+        "min": 0,
+        "max": 100
+      }
+    },
+    {
+      "label": "Submit Investigation Update",
+      "action": "submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_submit_active",
+        "columns": null
+      },
+      "id": "Field_submit_active"
+    }
+  ],
+  "type": "default",
+  "id": "activeInvestigationForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.35.0"
+  },
+  "schemaVersion": 18
+}],
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0"
+}

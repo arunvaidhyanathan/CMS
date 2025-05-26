@@ -1,0 +1,207 @@
+{
+  "type": "default",
+  "id": "Form_1aa6mz5",
+  "components": [{
+  "components": [
+    {
+      "label": "Case Assignment Details",
+      "type": "group",
+      "layout": {
+        "row": "Row_assignment_details",
+        "columns": null
+      },
+      "id": "Field_assignment_details_group",
+      "components": [
+        {
+          "label": "Case Number",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_case_num_assign",
+            "columns": 4
+          },
+          "id": "Field_case_num_assign",
+          "key": "caseNumber",
+          "readonly": true
+        },
+        {
+          "label": "Processing Decision",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_processing_decision_readonly",
+            "columns": 4
+          },
+          "id": "Field_processing_decision_readonly",
+          "key": "processingDecision",
+          "readonly": true
+        },
+        {
+          "label": "Case Priority",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_case_priority",
+            "columns": 4
+          },
+          "id": "Field_case_priority",
+          "key": "priority",
+          "readonly": true
+        }
+      ]
+    },
+    {
+      "label": "Investigator Assignment",
+      "type": "group",
+      "layout": {
+        "row": "Row_investigator_assignment",
+        "columns": null
+      },
+      "id": "Field_investigator_assignment_group",
+      "components": [
+        {
+          "label": "Primary Investigator",
+          "type": "select",
+          "layout": {
+            "row": "Row_primary_investigator",
+            "columns": 6
+          },
+          "id": "Field_primary_investigator",
+          "key": "primaryInvestigator",
+          "validate": {
+            "required": true
+          },
+          "values": [
+            {"label": "James Wilson - Senior Investigator", "value": "james.wilson"},
+            {"label": "Sarah Brown - Investigator", "value": "sarah.brown"},
+            {"label": "Michael Johnson - Senior Investigator", "value": "michael.johnson"},
+            {"label": "Emma Davis - Investigator", "value": "emma.davis"},
+            {"label": "Robert Garcia - Lead Investigator", "value": "robert.garcia"}
+          ]
+        },
+        {
+          "label": "Secondary Investigator (Optional)",
+          "type": "select",
+          "layout": {
+            "row": "Row_secondary_investigator",
+            "columns": 6
+          },
+          "id": "Field_secondary_investigator",
+          "key": "secondaryInvestigator",
+          "values": [
+            {"label": "None", "value": ""},
+            {"label": "Lisa Chen - Junior Investigator", "value": "lisa.chen"},
+            {"label": "David Miller - Investigator", "value": "david.miller"},
+            {"label": "Anna Rodriguez - Junior Investigator", "value": "anna.rodriguez"},
+            {"label": "Kevin Lee - Investigator", "value": "kevin.lee"}
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Investigation Parameters",
+      "type": "group",
+      "layout": {
+        "row": "Row_investigation_parameters",
+        "columns": null
+      },
+      "id": "Field_investigation_parameters_group",
+      "components": [
+        {
+          "label": "Investigation Start Date",
+          "type": "datetime",
+          "layout": {
+            "row": "Row_start_date",
+            "columns": 6
+          },
+          "id": "Field_start_date",
+          "key": "investigationStartDate",
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "label": "Investigation Deadline",
+          "type": "datetime",
+          "layout": {
+            "row": "Row_deadline",
+            "columns": 6
+          },
+          "id": "Field_deadline",
+          "key": "investigationDeadline",
+          "validate": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "label": "Resource Allocation",
+      "type": "group",
+      "layout": {
+        "row": "Row_resource_allocation",
+        "columns": null
+      },
+      "id": "Field_resource_allocation_group",
+      "components": [
+        {
+          "label": "Allocated Budget ($)",
+          "type": "number",
+          "layout": {
+            "row": "Row_budget",
+            "columns": 6
+          },
+          "id": "Field_budget",
+          "key": "allocatedBudget",
+          "validate": {
+            "required": true,
+            "min": 0
+          }
+        },
+        {
+          "label": "External Resources Required",
+          "type": "checkbox",
+          "layout": {
+            "row": "Row_external_resources",
+            "columns": 6
+          },
+          "id": "Field_external_resources",
+          "key": "externalResourcesRequired"
+        }
+      ]
+    },
+    {
+      "label": "Assignment Instructions",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_assignment_instructions",
+        "columns": null
+      },
+      "id": "Field_assignment_instructions",
+      "key": "assignmentInstructions",
+      "validate": {
+        "required": true
+      },
+      "description": "Provide detailed instructions and expectations for the investigation team"
+    },
+    {
+      "label": "Assign to Investigation Plan Creation",
+      "action": "submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_submit_assignment",
+        "columns": null
+      },
+      "id": "Field_submit_assignment"
+    }
+  ],
+  "type": "default",
+  "id": "iuAssignmentForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.35.0"
+  },
+  "schemaVersion": 18
+}],
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0"
+}

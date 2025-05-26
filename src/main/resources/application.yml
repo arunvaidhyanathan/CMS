@@ -1,0 +1,88 @@
+# CMS Backend Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: cms-backend
+  
+  profiles:
+    active: dev
+  
+  datasource:
+    url: jdbc:postgresql://ep-wispy-haze-a5xy9c41-pooler.us-east-2.aws.neon.tech/workflow?user=wf_owner&password=npg_7hrdeDKf6WyC&sslmode=require
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 20000
+      
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+    open-in-view: false
+    
+  security:
+    user:
+      name: admin
+      password: admin123
+      
+  jackson:
+    time-zone: UTC
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
+
+# Camunda 8.5 Configuration for Local Development
+camunda:
+  client:
+    zeebe:
+      # Local gateway address (matches docker-compose setup)
+      gateway-address: ${ZEEBE_ADDRESS:localhost:26500}
+      # Disable security for local development
+      security:
+        plaintext: ${ZEEBE_PLAINTEXT:true}
+      # Remove cloud configuration since we're running local
+      # cloud section is not needed for local setup
+      
+      # Job worker configuration
+      job:
+        timeout: ${ZEEBE_JOB_TIMEOUT:300000}  # 5 minutes
+        poll-interval: ${ZEEBE_JOB_POLL_INTERVAL:100}  # 100ms
+        
+      # Message configuration  
+      message:
+        time-to-live: ${ZEEBE_MESSAGE_TTL:3600000}  # 1 hour
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:mySecretKey12345678901234567890123456789012345678901234567890}
+  expiration: 86400000 # 24 hours
+
+# Logging
+logging:
+  level:
+    com.company.cms: DEBUG
+    io.camunda: INFO
+    org.springframework.security: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# Management
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
