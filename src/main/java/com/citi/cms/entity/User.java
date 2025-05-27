@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",  schema = "cms_workflow")
 public class User implements UserDetails {
     
     @Id

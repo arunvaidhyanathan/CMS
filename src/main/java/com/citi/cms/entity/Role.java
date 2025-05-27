@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roles",  schema = "cms_workflow")
 public class Role {
     
     @Id

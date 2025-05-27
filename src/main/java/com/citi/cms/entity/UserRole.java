@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_roles")
+@Table(name = "user_roles",  schema = "cms_workflow")
 public class UserRole {
     
     @Id

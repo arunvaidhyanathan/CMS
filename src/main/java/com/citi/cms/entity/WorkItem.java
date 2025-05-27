@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "work_items")
+@Table(name = "work_items",  schema = "cms_workflow")
 public class WorkItem {
     
     @Id

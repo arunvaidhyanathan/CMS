@@ -88,8 +88,7 @@ public class CaseServiceImpl implements CaseService {
             workflowVariables.put("severity", request.getSeverity());
             workflowVariables.put("complainantName", savedCase.getComplainantName());
             workflowVariables.put("complainantEmail", savedCase.getComplainantEmail());
-            // workflowVariables.put("priority", savedCase.getPriority().name());
-
+            workflowVariables.put("priority", savedCase.getPriority().name());
             workflowService.startCaseWorkflow(savedCase.getCaseId(), workflowVariables);
 
             logger.info("Case created successfully: {}", savedCase.getCaseNumber());
@@ -174,8 +173,8 @@ public class CaseServiceImpl implements CaseService {
         response.setCaseNumber(caseEntity.getCaseNumber());
         response.setTitle(caseEntity.getTitle());
         response.setDescription(caseEntity.getDescription());
-        // response.setPriority(caseEntity.getPriority().name());
-        // response.setStatus(caseEntity.getStatus().name());
+        response.setPriority(caseEntity.getPriority().name());
+        response.setStatus(caseEntity.getStatus().name());
         response.setComplainantName(caseEntity.getComplainantName());
         response.setComplainantEmail(caseEntity.getComplainantEmail());
         response.setCreatedAt(caseEntity.getCreatedAt());
@@ -210,7 +209,7 @@ public class CaseServiceImpl implements CaseService {
             response.setCaseId(workItem.getCaseEntity().getCaseId());
             response.setCaseNumber(workItem.getCaseEntity().getCaseNumber());
             response.setCaseTitle(workItem.getCaseEntity().getTitle());
-            // response.setCasePriority(workItem.getCaseEntity().getPriority().name());
+            response.setCasePriority(workItem.getCaseEntity().getPriority().name());
         }
 
         return response;

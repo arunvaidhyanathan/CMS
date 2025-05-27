@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+
 @Entity
-@Table(name = "case_transitions")
+@Table(name = "case_transitions",  schema = "cms_workflow")
 public class CaseTransition {
     
     @Id

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "cases")
+@Table(name = "cases",  schema = "cms_workflow")
 public class Case {
     
     @Id
@@ -73,9 +73,14 @@ public class Case {
     @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<WorkItem> workItems = new ArrayList<>();
     
+    /* 
     @OneToMany(mappedBy = "case", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CaseTransition> transitions = new ArrayList<>();
-    
+    */
+
+    @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<CaseTransition> transitions = new ArrayList<>();
+
     // Constructors
     public Case() {}
     
@@ -152,8 +157,11 @@ public class Case {
     public List<WorkItem> getWorkItems() { return workItems; }
     public void setWorkItems(List<WorkItem> workItems) { this.workItems = workItems; }
     
-    public List<CaseTransition> getTransitions() { return transitions; }
-    public void setTransitions(List<CaseTransition> transitions) { this.transitions = transitions; }
+        // Helper method to add transition
+        public void addTransition(CaseTransition transition) {
+        transitions.add(transition);
+        transition.setCaseEntity(this);
+        }
 }
 
 

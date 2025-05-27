@@ -25,14 +25,11 @@ com/citi/cms/dto/response/LoginResponse$Builder.class
 com/citi/cms/security/JwtAuthenticationEntryPoint.class
 com/citi/cms/config/MyCustomInterceptor.class
 com/citi/cms/controller/CaseController.class
-com/citi/cms/entity/Severity.class
 com/citi/cms/service/WorkflowService.class
 com/citi/cms/exception/ResourceNotFoundException.class
 com/citi/cms/service/impl/AuthServiceImpl.class
 com/citi/cms/service/UserService.class
-com/citi/cms/entity/CaseEntity.class
 com/citi/cms/dto/response/CaseResponse.class
-com/citi/cms/entity/RiskLevel.class
 com/citi/cms/repository/CaseRepository.class
 com/citi/cms/security/UserPrincipal.class
 com/citi/cms/controller/UserController.class
@@ -43,7 +40,6 @@ com/citi/cms/workflow/delegates/CaseCreationDelegate.class
 com/citi/cms/dto/request/TaskCompleteRequest.class
 com/citi/cms/entity/CaseType.class
 com/citi/cms/repository/RoleRepository.class
-com/citi/cms/entity/ConfidentialityLevel.class
 com/citi/cms/config/CamundaConfig.class
 com/citi/cms/config/WebConfig.class
 com/citi/cms/workflow/listeners/CaseStatusListener$1.class
@@ -60,7 +56,6 @@ com/citi/cms/dto/request/CaseCreateRequest.class
 com/citi/cms/repository/CaseTransitionRepository.class
 com/citi/cms/dto/response/WorkItemResponse.class
 com/citi/cms/repository/CaseTypeRepository.class
-com/citi/cms/config/DatabaseConfig.class
 com/citi/cms/service/CaseService.class
 com/citi/cms/security/JwtAuthenticationFilter.class
 com/citi/cms/exception/GlobalExceptionHandler.class

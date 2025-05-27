@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "departments")
+@Table(name = "departments",  schema = "cms_workflow")
 public class Department {
     
     @Id
