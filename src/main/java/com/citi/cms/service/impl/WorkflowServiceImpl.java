@@ -142,6 +142,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                     .addResourceFromClasspath("forms/hrAssignmentForm.form")
                     .addResourceFromClasspath("forms/legalAssignmentForm.form")
                     .addResourceFromClasspath("forms/csisAssignmentForm.form")
+                    .addResourceFromClasspath("forms/investigationFinalizationForm.form")
+                    .addResourceFromClasspath("forms/closeEoForm.form")
                     .send()
                     .join();
             
@@ -180,7 +182,9 @@ public class WorkflowServiceImpl implements WorkflowService {
             "forms/eoIntakeForm.form",
             "forms/hrAssignmentForm.form",
             "forms/legalAssignmentForm.form",
-            "forms/csisAssignmentForm.form"
+            "forms/csisAssignmentForm.form",
+            "forms/investigationFinalizationForm.form",
+            "forms/closeEoForm.form"
         };
         
         for (String resource : requiredResources) {
