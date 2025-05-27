@@ -56,6 +56,7 @@ com/citi/cms/dto/request/CaseCreateRequest.class
 com/citi/cms/repository/CaseTransitionRepository.class
 com/citi/cms/dto/response/WorkItemResponse.class
 com/citi/cms/repository/CaseTypeRepository.class
+com/citi/cms/config/DatabaseConfig.class
 com/citi/cms/service/CaseService.class
 com/citi/cms/security/JwtAuthenticationFilter.class
 com/citi/cms/exception/GlobalExceptionHandler.class

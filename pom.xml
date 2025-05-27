@@ -90,6 +90,18 @@
 			<scope>runtime</scope>
 		</dependency>
 
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-census</artifactId>
+            <version>1.65.1</version>
+        </dependency>
+
+        <dependency>
+             <groupId>io.opencensus</groupId>
+             <artifactId>opencensus-impl</artifactId>
+             <version>0.31.1</version>
+        </dependency>
+
 		<!-- Test Dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -101,6 +113,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+             <groupId>com.h2database</groupId>
+             <artifactId>h2</artifactId>
+             <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 	<build>

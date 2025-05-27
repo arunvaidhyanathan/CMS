@@ -48,7 +48,7 @@ public class UserController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or @userService.getUserById(#id).orElse(new com.citi.cms.entity.User()).getUserId() == authentication.principal.userId")
     public ResponseEntity<User> getUserById(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @AuthenticationPrincipal UserPrincipal currentUser) {
         
         logger.info("Retrieving user by ID: {} by user: {}", id, currentUser.getUsername());
@@ -196,7 +196,7 @@ public class UserController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or @userService.getUserById(#id).orElse(new com.citi.cms.entity.User()).getUserId() == authentication.principal.userId")
     public ResponseEntity<User> updateUser(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody User user,
             @AuthenticationPrincipal UserPrincipal currentUser) {
         
@@ -233,7 +233,7 @@ public class UserController {
         logger.info("Deleting user ID: {} by admin: {}", id, currentUser.getUsername());
         
         try {
-            Optional<User> userOptional = userService.getUserById(id);
+            Optional<User> userOptional = userService.getUserByUserId(id);
             
             if (!userOptional.isPresent()) {
                 logger.warn("User not found for deletion with ID: {}", id);

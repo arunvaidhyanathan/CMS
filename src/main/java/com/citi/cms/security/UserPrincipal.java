@@ -10,16 +10,16 @@ import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
     
-    private Long id;
+    private Integer id;
     private Long userId;
     private String username;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, Long userId, String username, String email, String password, 
-                        Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
+    public UserPrincipal(Integer id, Long userId, String username, String email, String password, 
+                            Collection<? extends GrantedAuthority> authorities) {
+            this.id = id;
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -78,7 +78,7 @@ public class UserPrincipal implements UserDetails {
     }
 
     // Getters
-    public Long getId() { return id; }
+    public Integer getId() { return id; }
     public Long getUserId() { return userId; }
     public String getEmail() { return email; }
 }
