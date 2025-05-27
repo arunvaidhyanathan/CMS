@@ -17,6 +17,7 @@ public class CaseTransition {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "case_id", referencedColumnName = "case_id")
+    //private CaseEntity caseEntity;
     private Case caseEntity;
     
     @Column(name = "from_status")
@@ -115,4 +116,5 @@ public class CaseTransition {
     
     public Map<String, String> getVariables() { return variables; }
     public void setVariables(Map<String, String> variables) { this.variables = variables; }
+
 }

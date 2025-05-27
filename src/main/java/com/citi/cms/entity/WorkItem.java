@@ -82,7 +82,10 @@ public class WorkItem {
     public void setWorkItemId(Long workItemId) { this.workItemId = workItemId; }
     
     public Case getCaseEntity() { return caseEntity; }
-    public void setCaseEntity(Case caseEntity) { this.caseEntity = caseEntity; }
+    
+    public void setCaseEntity(Case caseEntity) {
+        this.caseEntity = caseEntity;
+    }
     
     public User getAssignedTo() { return assignedTo; }
     public void setAssignedTo(User assignedTo) { this.assignedTo = assignedTo; }

@@ -73,7 +73,7 @@ public class Case {
     @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<WorkItem> workItems = new ArrayList<>();
     
-    @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "case", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CaseTransition> transitions = new ArrayList<>();
     
     // Constructors
@@ -156,10 +156,4 @@ public class Case {
     public void setTransitions(List<CaseTransition> transitions) { this.transitions = transitions; }
 }
 
-enum Priority {
-    LOW, MEDIUM, HIGH, CRITICAL
-}
 
-enum CaseStatus {
-    OPEN, IN_PROGRESS, RESOLVED, CLOSED
-}

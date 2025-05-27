@@ -393,13 +393,13 @@ public class AuditDelegate {
             if (createdAt != null) {
                 long daysSinceCreation = java.time.Duration.between(createdAt, LocalDateTime.now()).toDays();
                 
-                // Check if case is taking too long based on priority
-                String priority = caseEntity.getPriority() != null ? caseEntity.getPriority().name() : "MEDIUM";
-                int maxDays = getMaxDaysForPriority(priority);
+                // // Check if case is taking too long based on priority
+                // String priority = caseEntity.getPriority() != null ? caseEntity.getPriority().name : "MEDIUM";
+                // int maxDays = getMaxDaysForPriority(priority);
                 
-                if (daysSinceCreation > maxDays) {
-                    result.addIssue(String.format("Case exceeds timeline: %d days (max: %d)", daysSinceCreation, maxDays));
-                }
+                // if (daysSinceCreation > maxDays) {
+                //     result.addIssue(String.format("Case exceeds timeline: %d days (max: %d)", daysSinceCreation, maxDays));
+                // }
             }
 
             // Check required fields

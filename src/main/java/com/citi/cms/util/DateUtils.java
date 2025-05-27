@@ -204,7 +204,6 @@ public final class DateUtils {
     public static long businessDaysBetween(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) return 0;
         
-        long totalDays = ChronoUnit.DAYS.between(startDate, endDate);
         long businessDays = 0;
         
         LocalDate current = startDate;

@@ -57,7 +57,7 @@ public class WorkflowController {
         logger.info("Completing task with key: {} by user: {}", request.getTaskKey(), currentUser.getUsername());
         
         try {
-            workflowService.completeTask(request.getTaskKey(), request.getVariables(), currentUser.getUserId());
+            workflowService.completeTask(request.getTaskKey(), request.getVariables());
             
             logger.info("Task completed successfully: {}", request.getTaskKey());
             
@@ -79,7 +79,7 @@ public class WorkflowController {
         logger.info("Completing task with key: {} by user: {}", taskKey, currentUser.getUsername());
         
         try {
-            workflowService.completeTask(taskKey, variables, currentUser.getUserId());
+            workflowService.completeTask(taskKey, variables);
             
             logger.info("Task completed successfully: {}", taskKey);
             

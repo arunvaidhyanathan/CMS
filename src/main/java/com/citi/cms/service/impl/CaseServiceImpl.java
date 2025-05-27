@@ -10,6 +10,8 @@ import com.citi.cms.service.WorkflowService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,7 +66,7 @@ public class CaseServiceImpl implements CaseService {
             caseEntity.setTitle(request.getTitle());
             caseEntity.setDescription(request.getDescription());
             caseEntity.setCaseType(caseType);
-            caseEntity.setPriority(Priority.valueOf(request.getPriority()));
+            // caseEntity.setPriority(Priority.valueOf(request.getPriority()));
             caseEntity.setComplainantName(request.getComplainantName());
             caseEntity.setComplainantEmail(request.getComplainantEmail());
             caseEntity.setCreatedBy(createdBy);
@@ -86,7 +88,7 @@ public class CaseServiceImpl implements CaseService {
             workflowVariables.put("severity", request.getSeverity());
             workflowVariables.put("complainantName", savedCase.getComplainantName());
             workflowVariables.put("complainantEmail", savedCase.getComplainantEmail());
-            workflowVariables.put("priority", savedCase.getPriority().name());
+            // workflowVariables.put("priority", savedCase.getPriority().name());
 
             workflowService.startCaseWorkflow(savedCase.getCaseId(), workflowVariables);
 
@@ -115,7 +117,7 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    public List<WorkItemResponse> getWorkItemsForUser(Long userId) {
+    public List<WorkItemResponse> getWorkItemsForUser(Long userId, String status) {
         List<WorkItem> workItems = workItemRepository.findByAssignedToUserIdAndStatus(userId, "PENDING");
         return workItems.stream()
                 .map(this::convertToWorkItemResponse)
@@ -123,7 +125,7 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    public void assignCase(Long caseId, Long userId) {
+    public void assignCase(Long caseId, Long userId, String comments) {
         Case caseEntity = caseRepository.findByCaseId(caseId)
                 .orElseThrow(() -> new RuntimeException("Case not found: " + caseId));
 
@@ -143,7 +145,7 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    public void updateCaseStatus(Long caseId, String status) {
+    public void updateCaseStatus(Long caseId, String status, String comments, Long long1) {
         Case caseEntity = caseRepository.findByCaseId(caseId)
                 .orElseThrow(() -> new RuntimeException("Case not found: " + caseId));
 
@@ -172,8 +174,8 @@ public class CaseServiceImpl implements CaseService {
         response.setCaseNumber(caseEntity.getCaseNumber());
         response.setTitle(caseEntity.getTitle());
         response.setDescription(caseEntity.getDescription());
-        response.setPriority(caseEntity.getPriority().name());
-        response.setStatus(caseEntity.getStatus().name());
+        // response.setPriority(caseEntity.getPriority().name());
+        // response.setStatus(caseEntity.getStatus().name());
         response.setComplainantName(caseEntity.getComplainantName());
         response.setComplainantEmail(caseEntity.getComplainantEmail());
         response.setCreatedAt(caseEntity.getCreatedAt());
@@ -208,9 +210,33 @@ public class CaseServiceImpl implements CaseService {
             response.setCaseId(workItem.getCaseEntity().getCaseId());
             response.setCaseNumber(workItem.getCaseEntity().getCaseNumber());
             response.setCaseTitle(workItem.getCaseEntity().getTitle());
-            response.setCasePriority(workItem.getCaseEntity().getPriority().name());
+            // response.setCasePriority(workItem.getCaseEntity().getPriority().name());
         }
 
         return response;
+    }
+
+    @Override
+    public List<Map<String, Object>> getCaseAuditTrail(Long caseId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCaseAuditTrail'");
+    }
+
+    @Override
+    public Page<CaseResponse> searchCases(Map<String, Object> searchCriteria, Pageable pageable) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'searchCases'");
+    }
+
+    @Override
+    public Map<String, Object> getCaseStatistics(String fromDate, String toDate, String groupBy) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCaseStatistics'");
+    }
+
+    @Override
+    public Map<String, Object> exportCases(String format, String status, String fromDate, String toDate) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exportCases'");
     }
 }

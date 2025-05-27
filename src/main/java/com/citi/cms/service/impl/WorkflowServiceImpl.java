@@ -15,12 +15,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.citi.cms.dto.request.TaskCompleteRequest;
+
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 @Transactional
 public class WorkflowServiceImpl implements WorkflowService {
+
+    @Override
+    public void completeTask(Long taskKey, TaskCompleteRequest request, Long userId) {
+        logger.info("Completing task with key: {} and request: {}", taskKey, request);
+
+        Map<String, Object> variables = new HashMap<>();
+        // You might need to populate variables from the TaskCompleteRequest
+        // For example:
+        // variables.put("someVariable", request.getSomeValue());
+
+        completeTask(taskKey, variables, userId);
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(WorkflowServiceImpl.class);
 
@@ -72,7 +86,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Override
     public void completeTask(Long taskKey, Map<String, Object> variables) {
-        completeTask(taskKey, variables, null);
+        completeTask(taskKey, variables);
     }
 
     @Override
@@ -132,7 +146,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                 return;
             }
 
-            Case caseEntity = caseRepository.findByCaseId(caseId).orElse(null);
+            com.citi.cms.entity.Case caseEntity = caseRepository.findByCaseId(caseId).orElse(null);
             if (caseEntity == null) {
                 logger.warn("Case not found for ID: {}", caseId);
                 return;
@@ -149,15 +163,15 @@ public class WorkflowServiceImpl implements WorkflowService {
             transition.setFromStatus(caseEntity.getStatus());
             transition.setWorkflowInstanceKey(caseEntity.getWorkflowInstanceKey());
             transition.setPerformedBy(user);
-            
+
             // Extract task name and outcome from variables
             String taskName = (String) variables.get("taskName");
             String outcome = (String) variables.get("outcome");
             String comments = (String) variables.get("comments");
-            
+
             transition.setTaskName(taskName);
             transition.setComments(comments);
-            
+
             // Convert variables to string map for storage
             Map<String, String> variableStrings = new HashMap<>();
             variables.forEach((key, value) -> {
@@ -168,7 +182,7 @@ public class WorkflowServiceImpl implements WorkflowService {
             transition.setVariables(variableStrings);
 
             caseTransitionRepository.save(transition);
-            
+
         } catch (Exception e) {
             logger.error("Error recording case transition: {}", e.getMessage(), e);
             // Don't throw here to avoid breaking the workflow
