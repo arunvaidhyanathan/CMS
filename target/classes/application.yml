@@ -12,9 +12,9 @@ spring:
     active: dev
   
   datasource:
-    url: 
-    username: 
-    password: 
+    url: jdbc:postgresql://ep-wispy-haze-a5xy9c41-pooler.us-east-2.aws.neon.tech/workflow?user=wf_owner&password=npg_7hrdeDKf6WyC&sslmode=require&currentSchema=cms_workflow
+    username: wf_owner
+    password: npg_7hrdeDKf6WyC
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 20

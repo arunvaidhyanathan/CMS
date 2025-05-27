@@ -67,6 +67,7 @@ public class SecurityConfig {
                         .requestMatchers("/cases/**").hasAnyRole("INTAKE_ANALYST", "HR_SPECIALIST", "LEGAL_COUNSEL", "SECURITY_ANALYST", "INVESTIGATOR", "DIRECTOR", "ADMIN")
                         .requestMatchers("/workflow/**").hasAnyRole("INTAKE_ANALYST", "HR_SPECIALIST", "LEGAL_COUNSEL", "SECURITY_ANALYST", "INVESTIGATOR", "IU_MANAGER", "DIRECTOR", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/dev/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
