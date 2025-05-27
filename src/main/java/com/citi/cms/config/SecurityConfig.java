@@ -62,12 +62,20 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests(authz -> authz
+                        // Public endpoints
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
+                        
+                        // Development endpoints (only in dev profile)
+                        .requestMatchers("/dev/**").permitAll()
+                        .requestMatchers("/test/**").permitAll()
+                        
+                        // Protected endpoints with role-based access
                         .requestMatchers("/cases/**").hasAnyRole("INTAKE_ANALYST", "HR_SPECIALIST", "LEGAL_COUNSEL", "SECURITY_ANALYST", "INVESTIGATOR", "DIRECTOR", "ADMIN")
                         .requestMatchers("/workflow/**").hasAnyRole("INTAKE_ANALYST", "HR_SPECIALIST", "LEGAL_COUNSEL", "SECURITY_ANALYST", "INVESTIGATOR", "IU_MANAGER", "DIRECTOR", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/dev/**").permitAll()
+                        
+                        // All other requests require authentication
                         .anyRequest().authenticated()
                 );
 
@@ -76,6 +84,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

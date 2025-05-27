@@ -7,9 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -169,4 +172,41 @@ public class DevPasswordController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    @PostMapping("/encoding-debug")
+public ResponseEntity<Map<String, Object>> debugEncoding(@RequestParam String password) {
+    Map<String, Object> result = new HashMap<>();
+    
+    // Test different ways of handling the password
+    result.put("originalPassword", password);
+    result.put("passwordLength", password.length());
+    result.put("passwordBytes", Arrays.toString(password.getBytes()));
+    result.put("passwordBytesUTF8", Arrays.toString(password.getBytes(StandardCharsets.UTF_8)));
+    
+    // Test with explicit UTF-8
+    String utf8Password = new String(password.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
+    result.put("utf8Password", utf8Password);
+    result.put("utf8PasswordEquals", password.equals(utf8Password));
+    
+    // Test trimming
+    String trimmedPassword = password.trim();
+    result.put("trimmedPassword", trimmedPassword);
+    result.put("trimmedEquals", password.equals(trimmedPassword));
+    
+    // Generate hash with different approaches
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    
+    String hash1 = encoder.encode(password);
+    String hash2 = encoder.encode(password.trim());
+    String hash3 = encoder.encode(utf8Password);
+    
+    result.put("hash1", hash1);
+    result.put("hash2", hash2);
+    result.put("hash3", hash3);
+    
+    result.put("hash1Matches", encoder.matches(password, hash1));
+    result.put("hash2Matches", encoder.matches(password, hash2));
+    result.put("hash3Matches", encoder.matches(password, hash3));
+    
+    return ResponseEntity.ok(result);
+}
 }
