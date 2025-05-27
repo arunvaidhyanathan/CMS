@@ -814,3 +814,7 @@ ORDER BY username;
 
 -- The BCrypt hash '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O' 
 -- corresponds to the plain text password "demo123"
+
+-- corresponds to the plain text password "demo123"
+UPDATE cms_workflow.users SET password_hash = '$2a$10$EoM5TTJ9/7YlV1TD245gSei4AuZnbDtuEFewkOA7xl0j.h.W1rR4O';
+--WHERE username = 'intake.analyst';
