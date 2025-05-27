@@ -1,0 +1,111 @@
+#---------------------------------------------------#
+# General Java ignored files                        #
+#---------------------------------------------------#
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar
+*.gz
+hs_err_pid*.log # JVM crash logs
+.classpath      # Eclipse project files
+.project        # Eclipse project files
+.settings/      # Eclipse specific settings
+bin/            # Eclipse specific build output
+out/            # IntelliJ specific build output
+
+#---------------------------------------------------#
+# Build Tool Specific (Maven)                       #
+#---------------------------------------------------#
+/target/        # Maven build output directory
+# Maven Wrapper
+!.mvn/wrapper/maven-wrapper.jar # Keep the wrapper JAR if you use it for consistent builds
+.mvn/wrapper/maven-wrapper.properties # Keep wrapper properties
+
+#---------------------------------------------------#
+# Build Tool Specific (Gradle)                      #
+#---------------------------------------------------#
+.gradle/        # Gradle caches and generated files
+/build/         # Gradle build output directory
+# Gradle Wrapper
+!gradle/wrapper/gradle-wrapper.jar # Keep the wrapper JAR if you use it for consistent builds
+gradle/wrapper/gradle-wrapper.properties # Keep wrapper properties
+# Specific to Android Studio, not typical for pure Spring Boot but good to know
+.idea/libraries
+.idea/gradle.xml
+.idea/modules.xml
+.idea/*.iml
+
+#---------------------------------------------------#
+# IDE Specific (IntelliJ IDEA)                      #
+#---------------------------------------------------#
+.idea/          # IntelliJ IDEA project files (main folder)
+*.iml           # IntelliJ IDEA module files
+*.ipr           # IntelliJ IDEA project files
+*.iws           # IntelliJ IDEA workspace files
+# For macOS users of IntelliJ (if .idea/ is not ignored for some reason)
+# .idea/workspace.xml
+# .idea/tasks.xml
+# .idea/jsLibraryMappings.xml
+# .idea/vcs.xml
+# .idea/libraries/
+
+#---------------------------------------------------#
+# IDE Specific (VS Code)                            #
+#---------------------------------------------------#
+.vscode/        # VS Code specific settings and configurations
+# If you want to commit specific VS Code settings for the project,
+# you might uncomment lines below and keep just those.
+# e.g., !.vscode/settings.json
+# !.vscode/launch.json
+# !.vscode/tasks.json
+
+#---------------------------------------------------#
+# Operating System Specific                         #
+#---------------------------------------------------#
+.DS_Store       # macOS folder metadata
+Thumbs.db       # Windows thumbnail cache
+desktop.ini     # Windows folder customization
+
+#---------------------------------------------------#
+# Log files                                         #
+#---------------------------------------------------#
+*.log           # Any log files
+logs/           # Common directory for application logs
+
+#---------------------------------------------------#
+# Local Database Files (e.g., H2 Database)          #
+#---------------------------------------------------#
+*.mv.db         # H2 database files (file-based)
+*.trace.db      # H2 database trace files
+
+#---------------------------------------------------#
+# Spring Boot Specific                              #
+#---------------------------------------------------#
+# Externalized configuration files with sensitive data or local development specific values.
+# It's good practice to commit `application.properties` or `application.yml` templates
+# and use environment variables or profile-specific overrides for sensitive data.
+# However, if you have profile-specific files meant ONLY for local use with sensitive data, ignore them.
+# Examples:
+# application-dev.properties
+# application-local.properties
+# application-test.properties # If it contains specific local test DB details
+# application-dev.yml
+# application-local.yml
+# application-test.yml
+
+# Compiled Spring Boot application (covered by /target/ or /build/ but good to be explicit)
+*.jar
+*.war
+
+# JRebel (if used for hot-swapping)
+/rebel/
+*.rebel.xml
+
+# If you use Docker, ignore .dockerignore (it's similar to .gitignore but for Docker builds)
+.dockerignore
+
+# If you're building native images with GraalVM
+target/native/
+build/native/
