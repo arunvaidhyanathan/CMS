@@ -9,6 +9,7 @@ import com.citi.cms.repository.UserRepository;
 import com.citi.cms.service.WorkflowService;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
+import io.camunda.zeebe.client.api.response.DeploymentEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +20,13 @@ import com.citi.cms.dto.request.TaskCompleteRequest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.io.InputStream;
+import java.io.IOException;
+
 
 @Service
 @Transactional
 public class WorkflowServiceImpl implements WorkflowService {
-
-    @Override
-    public void completeTask(Long taskKey, TaskCompleteRequest request, Long userId) {
-        logger.info("Completing task with key: {} and request: {}", taskKey, request);
-
-        Map<String, Object> variables = new HashMap<>();
-        // You might need to populate variables from the TaskCompleteRequest
-        // For example:
-        // variables.put("someVariable", request.getSomeValue());
-
-        completeTask(taskKey, variables, userId);
-    }
 
     private static final Logger logger = LoggerFactory.getLogger(WorkflowServiceImpl.class);
 
@@ -86,7 +78,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Override
     public void completeTask(Long taskKey, Map<String, Object> variables) {
-        completeTask(taskKey, variables);
+        completeTask(taskKey, variables, null);
     }
 
     @Override
@@ -112,30 +104,96 @@ public class WorkflowServiceImpl implements WorkflowService {
     }
 
     @Override
+    public void completeTask(Long taskKey, TaskCompleteRequest request, Long userId) {
+        logger.info("Completing task with key: {} and request", taskKey);
+
+        Map<String, Object> variables = new HashMap<>(request.getVariables());
+        
+        // Add additional variables from request
+        if (request.getOutcome() != null) {
+            variables.put("outcome", request.getOutcome());
+        }
+        if (request.getComments() != null) {
+            variables.put("comments", request.getComments());
+        }
+        
+        // Add user information
+        variables.put("completedByUserId", userId);
+        variables.put("completionDate", System.currentTimeMillis());
+
+        completeTask(taskKey, variables, userId);
+    }
+
+    @Override
     public void deployProcesses() {
-        logger.info("Deploying BPMN processes | DMN tables | Forms");
+        logger.info("Deploying BPMN processes, DMN tables, and Forms");
         
         try {
-            zeebeClient.newDeployResourceCommand()
-                    .addResourceFromClasspath("processes/cms_workflow.bpmn")
+            // Check if resources exist before deployment
+            validateResourcesExist();
+            
+            DeploymentEvent deployment = zeebeClient.newDeployResourceCommand()
+                    // Deploy the simple BPMN process (not the complex collaboration)
+                    .addResourceFromClasspath("processes/simple-case-process.bpmn")
+                    // Deploy DMN decision table
                     .addResourceFromClasspath("processes/cms_wf.dmn")
-                    .addResourceFromClasspath("form/*")
+                    // Deploy forms (only if they exist)
+                    .addResourceFromClasspath("forms/eoIntakeForm.form")
+                    .addResourceFromClasspath("forms/hrAssignmentForm.form")
+                    .addResourceFromClasspath("forms/legalAssignmentForm.form")
+                    .addResourceFromClasspath("forms/csisAssignmentForm.form")
                     .send()
                     .join();
             
-            logger.info("Processes deployed successfully");
+            logger.info("Deployment successful. Deployment key: {}", deployment.getKey());
+            
+            // Log deployed resources
+            deployment.getProcesses().forEach(process -> 
+                logger.info("Deployed process: {} v{} with key {}", 
+                           process.getBpmnProcessId(), process.getVersion(), process.getProcessDefinitionKey()));
+            
+            deployment.getDecisionRequirements().forEach(dmn -> 
+                logger.info("Deployed DMN: {} v{} with key {}", 
+                           dmn.getDmnDecisionRequirementsId(), dmn.getVersion(), dmn.getDecisionRequirementsKey()));
+            
+            deployment.getForm().forEach(form -> 
+                logger.info("Deployed form: {} with key {}", form.getFormId(), form.getFormKey()));
             
         } catch (Exception e) {
             logger.error("Error deploying processes: {}", e.getMessage(), e);
-            throw new RuntimeException("Failed to deploy processes", e);
+            throw new RuntimeException("Failed to deploy processes: " + e.getMessage(), e);
         }
     }
 
     @Override
     public Map<String, Object> getProcessVariables(Long processInstanceKey) {
-        // This is a placeholder for Zeebe, we can typically get variables through job workers
-        // or by querying the process instance through Operate API
+        // This is a placeholder for Zeebe - variables are typically retrieved through job workers
+        // or by querying Operate API in a real implementation
+        logger.debug("Getting process variables for instance: {}", processInstanceKey);
         return new HashMap<>();
+    }
+
+    private void validateResourcesExist() {
+        String[] requiredResources = {
+            "processes/simple-case-process.bpmn",
+            "processes/cms_wf.dmn",
+            "forms/eoIntakeForm.form",
+            "forms/hrAssignmentForm.form",
+            "forms/legalAssignmentForm.form",
+            "forms/csisAssignmentForm.form"
+        };
+        
+        for (String resource : requiredResources) {
+            try (InputStream is = getClass().getClassLoader().getResourceAsStream(resource)) {
+                if (is == null) {
+                    logger.warn("Resource not found: {}", resource);
+                } else {
+                    logger.debug("Resource found: {}", resource);
+                }
+            } catch (IOException e) {
+                logger.warn("Error checking resource {}: {}", resource, e.getMessage());
+            }
+        }
     }
 
     private void recordCaseTransition(Long taskKey, Map<String, Object> variables, Long userId) {
@@ -146,7 +204,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                 return;
             }
 
-            com.citi.cms.entity.Case caseEntity = caseRepository.findByCaseId(caseId).orElse(null);
+            Case caseEntity = caseRepository.findByCaseId(caseId).orElse(null);
             if (caseEntity == null) {
                 logger.warn("Case not found for ID: {}", caseId);
                 return;
@@ -169,7 +227,7 @@ public class WorkflowServiceImpl implements WorkflowService {
             String outcome = (String) variables.get("outcome");
             String comments = (String) variables.get("comments");
 
-            transition.setTaskName(taskName);
+            transition.setTaskName(taskName != null ? taskName : "TASK_COMPLETION");
             transition.setComments(comments);
 
             // Convert variables to string map for storage
@@ -182,6 +240,8 @@ public class WorkflowServiceImpl implements WorkflowService {
             transition.setVariables(variableStrings);
 
             caseTransitionRepository.save(transition);
+            
+            logger.debug("Case transition recorded for case: {} task: {}", caseId, taskKey);
 
         } catch (Exception e) {
             logger.error("Error recording case transition: {}", e.getMessage(), e);
