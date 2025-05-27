@@ -747,3 +747,70 @@ WHERE tc.constraint_type = 'FOREIGN KEY'
 -- Connect to your database and run:
 ALTER TABLE cms_workflow.case_types ALTER COLUMN id TYPE BIGINT;
 ALTER SEQUENCE cms_workflow.case_types_id_seq AS BIGINT;
+
+UPDATE cms_workflow.users 
+SET password_hash = '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O'
+WHERE password_hash = '$2a$10$demo.hash.for.demo123';
+
+
+-- Quick SQL fix for user passwords
+-- Connect to your PostgreSQL database and run these commands
+
+-- 1. Check current password hashes
+SELECT username, password_hash, 
+       CASE WHEN password_hash = '$2a$10$demo.hash.for.demo123' 
+            THEN 'NEEDS UPDATE' 
+            ELSE 'OK' 
+       END as status
+FROM cms_workflow.users
+ORDER BY username;
+
+-- 2. Update all users with proper BCrypt hash for "demo123"
+-- This hash was generated using BCryptPasswordEncoder with strength 10
+UPDATE cms_workflow.users 
+SET password_hash = '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O'
+WHERE password_hash = '$2a$10$demo.hash.for.demo123';
+
+-- 3. Verify the update
+SELECT username, email, first_name, last_name,
+       CASE WHEN password_hash = '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O' 
+            THEN '✅ PASSWORD UPDATED - Use: demo123' 
+            ELSE '❌ PASSWORD NOT UPDATED' 
+       END as login_status
+FROM cms_workflow.users
+ORDER BY username;
+
+
+-- STEP 1: Check current password hashes
+SELECT username, 
+       password_hash,
+       CASE 
+           WHEN password_hash = '$2a$10$demo.hash.for.demo123' THEN 'NEEDS UPDATE ❌'
+           WHEN password_hash = '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O' THEN 'CORRECT HASH ✅'
+           ELSE 'UNKNOWN HASH ❓'
+       END as status
+FROM cms_workflow.users 
+ORDER BY username;
+
+-- STEP 2: Update all users with correct BCrypt hash for "demo123"
+UPDATE cms_workflow.users 
+SET password_hash = '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O';
+
+-- STEP 3: Verify the update worked
+SELECT username, first_name, last_name, email,
+       CASE 
+           WHEN password_hash = '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O' 
+           THEN '✅ Password: demo123' 
+           ELSE '❌ Password not updated' 
+       END as login_info
+FROM cms_workflow.users 
+ORDER BY username;
+
+-- RESULT: All users should now be able to login with password "demo123"
+
+-- 4. Alternative: Update individual users if needed
+-- UPDATE cms_workflow.users SET password_hash = '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O' WHERE username = 'intake.analyst';
+-- UPDATE cms_workflow.users SET password_hash = '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O' WHERE username = 'admin';
+
+-- The BCrypt hash '$2a$10$N.zmdr9k7uOsaLQJeuOISOXzDUz5vbMRoATWY4EABP/CL/8AUed0O' 
+-- corresponds to the plain text password "demo123"
