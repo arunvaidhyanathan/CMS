@@ -8,7 +8,7 @@
              namespace="http://camunda.org/schema/1.0/dmn">
 
   <decision id="allegation-classification" name="Allegation Classification">
-    <decisionTable id="DecisionTable_AllegationClassification" hitPolicy="FIRST">
+    <decisionTable id="DecisionTable_AllegationClassification" hitPolicy="COLLECT">
       
       <!-- Input: Allegation Type -->
       <input id="InputClause_AllegationType" label="Allegation Type">
@@ -27,7 +27,7 @@
       <!-- Output: Classification -->
       <output id="OutputClause_Classification" label="Classification" name="classification" typeRef="string">
         <outputValues id="UnaryTests_Classification">
-          <text>"HR","LEGAL","CSIS"</text>
+          <text>"HR","LEGAL","CSIS","MULTI_DEPT"</text>
         </outputValues>
       </output>
       
@@ -44,21 +44,39 @@
       <!-- Rules -->
       
       <!-- HR Related Cases -->
-      <rule id="DecisionRule_HR_Harassment">
-        <inputEntry id="UnaryTests_HR_Harassment_Type">
+      <rule id="DecisionRule_HR_Harassment_High">
+        <inputEntry id="UnaryTests_HR_Harassment_Type_High">
           <text>"Harassment", "Sexual Harassment", "Workplace Harassment"</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_HR_Harassment_Severity">
+        <inputEntry id="UnaryTests_HR_Harassment_Severity_High">
           <text>"HIGH", "CRITICAL"</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_HR_Harassment_Classification">
+        <outputEntry id="LiteralExpression_HR_Harassment_Classification_High">
           <text>"HR"</text>
         </outputEntry>
-        <outputEntry id="LiteralExpression_HR_Harassment_Group">
+        <outputEntry id="LiteralExpression_HR_Harassment_Group_High">
           <text>"HR_SPECIALIST"</text>
         </outputEntry>
-        <outputEntry id="LiteralExpression_HR_Harassment_Priority">
+        <outputEntry id="LiteralExpression_HR_Harassment_Priority_High">
           <text>"HIGH"</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="DecisionRule_HR_Harassment_Medium">
+        <inputEntry id="UnaryTests_HR_Harassment_Type_Medium">
+          <text>"Harassment", "Sexual Harassment", "Workplace Harassment"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_HR_Harassment_Severity_Medium">
+          <text>"LOW", "MEDIUM"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_HR_Harassment_Classification_Medium">
+          <text>"HR"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_HR_Harassment_Group_Medium">
+          <text>"HR_SPECIALIST"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_HR_Harassment_Priority_Medium">
+          <text>"MEDIUM"</text>
         </outputEntry>
       </rule>
       
@@ -91,7 +109,7 @@
           <text>"HR"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_HR_Policy_Group">
-          <text>"HR_GENERALIST"</text>
+          <text>"HR_SPECIALIST"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_HR_Policy_Priority">
           <text>"MEDIUM"</text>
@@ -128,7 +146,7 @@
           <text>"LEGAL"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_Legal_Compliance_Group">
-          <text>"COMPLIANCE_OFFICER"</text>
+          <text>"LEGAL_COUNSEL"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_Legal_Compliance_Priority">
           <text>"HIGH"</text>
@@ -146,7 +164,7 @@
           <text>"LEGAL"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_Legal_Contract_Group">
-          <text>"CONTRACT_SPECIALIST"</text>
+          <text>"LEGAL_COUNSEL"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_Legal_Contract_Priority">
           <text>"MEDIUM"</text>
@@ -165,7 +183,7 @@
           <text>"CSIS"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_CSIS_Security_Group">
-          <text>"SECURITY_SPECIALIST"</text>
+          <text>"SECURITY_ANALYST"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_CSIS_Security_Priority">
           <text>"CRITICAL"</text>
@@ -183,7 +201,7 @@
           <text>"CSIS"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_CSIS_Data_Group">
-          <text>"CYBER_SECURITY_SPECIALIST"</text>
+          <text>"SECURITY_ANALYST"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_CSIS_Data_Priority">
           <text>"CRITICAL"</text>
@@ -201,10 +219,65 @@
           <text>"CSIS"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_CSIS_Investigation_Group">
-          <text>"INVESTIGATION_SPECIALIST"</text>
+          <text>"SECURITY_ANALYST"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_CSIS_Investigation_Priority">
           <text>"HIGH"</text>
+        </outputEntry>
+      </rule>
+      
+      <!-- Multi-Department Complex Cases -->
+      <rule id="DecisionRule_Multi_Dept_Complex">
+        <inputEntry id="UnaryTests_Multi_Complex_Type">
+          <text>"Financial Fraud,Sexual Harassment", "Data Breach,Embezzlement", "Security Breach,Fraud"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_Multi_Complex_Severity">
+          <text>"CRITICAL"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_Multi_Complex_Classification">
+          <text>"HR"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_Multi_Complex_Group">
+          <text>"HR_SPECIALIST"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_Multi_Complex_Priority">
+          <text>"CRITICAL"</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="DecisionRule_Multi_Dept_Complex_Legal">
+        <inputEntry id="UnaryTests_Multi_Complex_Type_Legal">
+          <text>"Financial Fraud,Sexual Harassment", "Data Breach,Embezzlement", "Security Breach,Fraud"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_Multi_Complex_Severity_Legal">
+          <text>"CRITICAL"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_Multi_Complex_Classification_Legal">
+          <text>"LEGAL"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_Multi_Complex_Group_Legal">
+          <text>"LEGAL_COUNSEL"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_Multi_Complex_Priority_Legal">
+          <text>"CRITICAL"</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="DecisionRule_Multi_Dept_Complex_CSIS">
+        <inputEntry id="UnaryTests_Multi_Complex_Type_CSIS">
+          <text>"Financial Fraud,Sexual Harassment", "Data Breach,Embezzlement", "Security Breach,Fraud"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_Multi_Complex_Severity_CSIS">
+          <text>"CRITICAL"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_Multi_Complex_Classification_CSIS">
+          <text>"CSIS"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_Multi_Complex_Group_CSIS">
+          <text>"SECURITY_ANALYST"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_Multi_Complex_Priority_CSIS">
+          <text>"CRITICAL"</text>
         </outputEntry>
       </rule>
       
@@ -220,7 +293,7 @@
           <text>"HR"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_Default_Group">
-          <text>"HR_GENERALIST"</text>
+          <text>"HR_SPECIALIST"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_Default_Priority">
           <text>"MEDIUM"</text>

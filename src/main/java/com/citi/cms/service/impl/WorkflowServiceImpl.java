@@ -52,7 +52,8 @@ public class WorkflowServiceImpl implements WorkflowService {
             variables.put("processStartTime", System.currentTimeMillis());
             
             ProcessInstanceEvent processInstance = zeebeClient.newCreateInstanceCommand()
-                    .bpmnProcessId("case-management-process")
+                    // .bpmnProcessId("case-management-process")
+                    .bpmnProcessId("Process_CMS_Workflow")
                     .latestVersion()
                     .variables(variables)
                     .send()
@@ -134,16 +135,16 @@ public class WorkflowServiceImpl implements WorkflowService {
             
             DeploymentEvent deployment = zeebeClient.newDeployResourceCommand()
                     // Deploy the simple BPMN process (not the complex collaboration)
-                    .addResourceFromClasspath("processes/simple-case-process.bpmn")
+                    .addResourceFromClasspath("processes/cms_workflow.bpmn")
                     // Deploy DMN decision table
-                    .addResourceFromClasspath("processes/cms_wf.dmn")
+                    .addResourceFromClasspath("processes/allegation-classification.dmn")
                     // Deploy forms (only if they exist)
-                    .addResourceFromClasspath("forms/eoIntakeForm.form")
-                    .addResourceFromClasspath("forms/hrAssignmentForm.form")
-                    .addResourceFromClasspath("forms/legalAssignmentForm.form")
-                    .addResourceFromClasspath("forms/csisAssignmentForm.form")
-                    .addResourceFromClasspath("forms/investigationFinalizationForm.form")
-                    .addResourceFromClasspath("forms/closeEoForm.form")
+                    // .addResourceFromClasspath("forms/eoIntakeForm.form")
+                    // .addResourceFromClasspath("forms/hrAssignmentForm.form")
+                    // .addResourceFromClasspath("forms/legalAssignmentForm.form")
+                    // .addResourceFromClasspath("forms/csisAssignmentForm.form")
+                    // .addResourceFromClasspath("forms/investigationFinalizationForm.form")
+                    // .addResourceFromClasspath("forms/closeEoForm.form")
                     .send()
                     .join();
             
@@ -177,14 +178,14 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     private void validateResourcesExist() {
         String[] requiredResources = {
-            "processes/simple-case-process.bpmn",
-            "processes/cms_wf.dmn",
-            "forms/eoIntakeForm.form",
-            "forms/hrAssignmentForm.form",
-            "forms/legalAssignmentForm.form",
-            "forms/csisAssignmentForm.form",
-            "forms/investigationFinalizationForm.form",
-            "forms/closeEoForm.form"
+            "processes/cms_workflow.bpmn",
+            "processes/allegation-classification.dmn",
+            // "forms/eoIntakeForm.form",
+            // "forms/hrAssignmentForm.form",
+            // "forms/legalAssignmentForm.form",
+            // "forms/csisAssignmentForm.form",
+            // "forms/investigationFinalizationForm.form",
+            // "forms/closeEoForm.form"
         };
         
         for (String resource : requiredResources) {
