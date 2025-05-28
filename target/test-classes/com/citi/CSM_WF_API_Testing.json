@@ -569,6 +569,34 @@
       {
         "name": "06. Assignment Operations",
         "item": [
+            {
+                "name": "Assign Case to Intake Analyst",
+                "request": {
+                  "method": "POST",
+                  "header": [
+                    {
+                      "key": "Authorization",
+                      "value": "Bearer {{directorToken}}"
+                    }
+                  ],
+                  "url": {
+                    "raw": "{{baseUrl}}/cases/{{case1Id}}/assign?userId=1&comments=Assigned to Intake Analyst for harassment investigation",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["cases", "{{case1Id}}", "assign"],
+                    "query": [
+                      {
+                        "key": "userId",
+                        "value": "1",
+                        "description": "Intake Analyst user ID"
+                      },
+                      {
+                        "key": "comments",
+                        "value": "Assigned to Intake Analyst for harassment investigation"
+                      }
+                    ]
+                  }
+                }
+              },
           {
             "name": "Assign Case to HR Specialist",
             "request": {
