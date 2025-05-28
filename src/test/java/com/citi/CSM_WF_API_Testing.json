@@ -567,10 +567,288 @@
         ]
       },
       {
-        "name": "06. Multi-Department Flow",
+        "name": "06. Assignment Operations",
         "item": [
           {
-            "name": "Complete HR Task (Multi-Dept Case)",
+            "name": "Assign Case to HR Specialist",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/assign?userId=2&comments=Assigned to HR specialist for harassment investigation",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "assign"],
+                "query": [
+                  {
+                    "key": "userId",
+                    "value": "2",
+                    "description": "HR Specialist user ID"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Assigned to HR specialist for harassment investigation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Assign Case to Legal Counsel",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/assign?userId=3&comments=Assigned to legal counsel for fraud investigation",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "assign"],
+                "query": [
+                  {
+                    "key": "userId",
+                    "value": "3",
+                    "description": "Legal Counsel user ID"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Assigned to legal counsel for fraud investigation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Assign Case to Security Analyst",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/assign?userId=4&comments=Assigned to security analyst for breach investigation",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "assign"],
+                "query": [
+                  {
+                    "key": "userId",
+                    "value": "4",
+                    "description": "Security Analyst user ID"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Assigned to security analyst for breach investigation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Assign Case to Investigator",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/assign?userId=5&comments=Assigned to investigator for detailed investigation",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "assign"],
+                "query": [
+                  {
+                    "key": "userId",
+                    "value": "5",
+                    "description": "Investigator user ID"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Assigned to investigator for detailed investigation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Bulk Assignment for Multi-Dept Case",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"assignments\": [\n        {\n            \"userId\": 2,\n            \"department\": \"HR\",\n            \"role\": \"HR_SPECIALIST\",\n            \"comments\": \"Handle HR aspects of financial fraud case\"\n        },\n        {\n            \"userId\": 3,\n            \"department\": \"LEGAL\",\n            \"role\": \"LEGAL_COUNSEL\",\n            \"comments\": \"Handle legal aspects and compliance issues\"\n        },\n        {\n            \"userId\": 4,\n            \"department\": \"SECURITY\",\n            \"role\": \"SECURITY_ANALYST\",\n            \"comments\": \"Investigate security breach and data access violations\"\n        }\n    ],\n    \"caseId\": {{case2Id}},\n    \"assignmentType\": \"PARALLEL\",\n    \"priority\": \"CRITICAL\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/bulk-assign",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "bulk-assign"]
+              }
+            }
+          },
+          {
+            "name": "Get Case Assignments",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/assignments",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "assignments"]
+              }
+            }
+          },
+          {
+            "name": "Reassign Case from HR to Legal",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/reassign?fromUserId=2&toUserId=3&reason=Requires legal expertise",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "reassign"],
+                "query": [
+                  {
+                    "key": "fromUserId",
+                    "value": "2",
+                    "description": "Current assignee (HR Specialist)"
+                  },
+                  {
+                    "key": "toUserId",
+                    "value": "3",
+                    "description": "New assignee (Legal Counsel)"
+                  },
+                  {
+                    "key": "reason",
+                    "value": "Requires legal expertise"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get User Assignments",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/user/2/assignments",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "user", "2", "assignments"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "07. Multi-Department Flow",
+        "item": [
+          {
+            "name": "Check Multi-Dept Work Items - HR",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/workitems/2?status=PENDING",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "workitems", "2"],
+                "query": [
+                  {
+                    "key": "status",
+                    "value": "PENDING"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Check Multi-Dept Work Items - Legal",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{legalToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/workitems/3?status=PENDING",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "workitems", "3"],
+                "query": [
+                  {
+                    "key": "status",
+                    "value": "PENDING"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Check Multi-Dept Work Items - Security",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{securityToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/workitems/4?status=PENDING",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "workitems", "4"],
+                "query": [
+                  {
+                    "key": "status",
+                    "value": "PENDING"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Complete EO Assignment - HR (Multi-Dept)",
             "request": {
               "method": "POST",
               "header": [
@@ -585,7 +863,7 @@
               ],
               "body": {
                 "mode": "raw",
-                "raw": "{\n    \"taskKey\": 2251799813685255,\n    \"outcome\": \"HR_REVIEW_COMPLETE\",\n    \"comments\": \"HR review completed for financial fraud case\",\n    \"variables\": {\n        \"hrReviewResult\": \"POLICY_VIOLATION_CONFIRMED\",\n        \"recommendedAction\": \"TERMINATION\"\n    }\n}"
+                "raw": "{\n    \"taskKey\": 2251799813685255,\n    \"outcome\": \"HR_ASSIGNMENT_ACCEPTED\",\n    \"comments\": \"HR department accepts case assignment for policy violation review\",\n    \"variables\": {\n        \"assignmentDecision\": \"ACCEPTED\",\n        \"departmentReadiness\": \"READY\",\n        \"estimatedCompletionDays\": 7,\n        \"specialistAssigned\": \"hr.specialist\",\n        \"reviewType\": \"POLICY_COMPLIANCE\",\n        \"priorityLevel\": \"HIGH\"\n    }\n}"
               },
               "url": {
                 "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
@@ -595,7 +873,7 @@
             }
           },
           {
-            "name": "Complete Legal Task (Multi-Dept Case)",
+            "name": "Complete EO Assignment - Legal (Multi-Dept)",
             "request": {
               "method": "POST",
               "header": [
@@ -610,7 +888,7 @@
               ],
               "body": {
                 "mode": "raw",
-                "raw": "{\n    \"taskKey\": 2251799813685256,\n    \"outcome\": \"LEGAL_REVIEW_COMPLETE\",\n    \"comments\": \"Legal review completed. Criminal referral recommended.\",\n    \"variables\": {\n        \"legalReviewResult\": \"CRIMINAL_ACTIVITY_SUSPECTED\",\n        \"recommendedAction\": \"CRIMINAL_REFERRAL\"\n    }\n}"
+                "raw": "{\n    \"taskKey\": 2251799813685256,\n    \"outcome\": \"LEGAL_ASSIGNMENT_ACCEPTED\",\n    \"comments\": \"Legal department accepts case assignment for fraud investigation\",\n    \"variables\": {\n        \"assignmentDecision\": \"ACCEPTED\",\n        \"departmentReadiness\": \"READY\",\n        \"estimatedCompletionDays\": 14,\n        \"counselAssigned\": \"legal.counsel\",\n        \"reviewType\": \"CRIMINAL_FRAUD\",\n        \"complianceRisk\": \"HIGH\",\n        \"externalCounselRequired\": false\n    }\n}"
               },
               "url": {
                 "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
@@ -620,7 +898,7 @@
             }
           },
           {
-            "name": "Complete Security Task (Multi-Dept Case)",
+            "name": "Complete EO Assignment - Security (Multi-Dept)",
             "request": {
               "method": "POST",
               "header": [
@@ -635,7 +913,132 @@
               ],
               "body": {
                 "mode": "raw",
-                "raw": "{\n    \"taskKey\": 2251799813685257,\n    \"outcome\": \"SECURITY_REVIEW_COMPLETE\",\n    \"comments\": \"Security investigation completed. Access violations confirmed.\",\n    \"variables\": {\n        \"securityReviewResult\": \"ACCESS_VIOLATIONS_CONFIRMED\",\n        \"dataBreachSeverity\": \"MODERATE\"\n    }\n}"
+                "raw": "{\n    \"taskKey\": 2251799813685257,\n    \"outcome\": \"SECURITY_ASSIGNMENT_ACCEPTED\",\n    \"comments\": \"Security department accepts case assignment for data breach investigation\",\n    \"variables\": {\n        \"assignmentDecision\": \"ACCEPTED\",\n        \"departmentReadiness\": \"READY\",\n        \"estimatedCompletionDays\": 5,\n        \"analystAssigned\": \"security.analyst\",\n        \"reviewType\": \"DATA_BREACH\",\n        \"forensicsRequired\": true,\n        \"systemsAffected\": \"FINANCIAL_SYSTEM\",\n        \"incidentSeverity\": \"HIGH\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete HR Investigation (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685258,\n    \"outcome\": \"HR_INVESTIGATION_COMPLETE\",\n    \"comments\": \"HR investigation completed. Multiple policy violations confirmed.\",\n    \"variables\": {\n        \"investigationResult\": \"POLICY_VIOLATIONS_CONFIRMED\",\n        \"violationsFound\": [\n            \"FINANCIAL_POLICY_VIOLATION\",\n            \"CODE_OF_CONDUCT_BREACH\",\n            \"CONFLICT_OF_INTEREST\"\n        ],\n        \"employeeInterviewed\": true,\n        \"witnessesInterviewed\": 2,\n        \"documentationReviewed\": true,\n        \"recommendedAction\": \"TERMINATION\",\n        \"disciplinaryHistory\": \"PREVIOUS_WARNINGS\",\n        \"hrRecommendation\": \"IMMEDIATE_TERMINATION\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Legal Investigation (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{legalToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685259,\n    \"outcome\": \"LEGAL_INVESTIGATION_COMPLETE\",\n    \"comments\": \"Legal investigation completed. Criminal activity suspected with sufficient evidence.\",\n    \"variables\": {\n        \"investigationResult\": \"CRIMINAL_ACTIVITY_SUSPECTED\",\n        \"evidenceQuality\": \"STRONG\",\n        \"criminalElements\": [\n            \"EMBEZZLEMENT\",\n            \"FRAUD\",\n            \"COMPUTER_CRIMES\"\n        ],\n        \"financialLoss\": 75000,\n        \"prosecutionRecommended\": true,\n        \"lawEnforcementNotified\": false,\n        \"civilLiabilityRisk\": \"HIGH\",\n        \"regulatoryReportingRequired\": true,\n        \"legalRecommendation\": \"CRIMINAL_REFERRAL_AND_CIVIL_ACTION\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Security Investigation (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{securityToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685260,\n    \"outcome\": \"SECURITY_INVESTIGATION_COMPLETE\",\n    \"comments\": \"Security investigation completed. Data breach confirmed with unauthorized access to financial systems.\",\n    \"variables\": {\n        \"investigationResult\": \"DATA_BREACH_CONFIRMED\",\n        \"breachScope\": \"FINANCIAL_RECORDS\",\n        \"unauthorizedAccess\": true,\n        \"dataExfiltrated\": true,\n        \"recordsAffected\": 1250,\n        \"accessMethod\": \"PRIVILEGED_ACCOUNT_ABUSE\",\n        \"forensicsCompleted\": true,\n        \"vulnerabilitiesFound\": [\n            \"WEAK_ACCESS_CONTROLS\",\n            \"INSUFFICIENT_MONITORING\",\n            \"PRIVILEGE_ESCALATION\"\n        ],\n        \"systemsSecured\": true,\n        \"incidentContained\": true,\n        \"securityRecommendation\": \"IMMEDIATE_ACCESS_REVOCATION_AND_SYSTEM_HARDENING\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Final Investigation (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{investigatorToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685261,\n    \"outcome\": \"INVESTIGATION_COMPLETE\",\n    \"comments\": \"Comprehensive investigation completed across all departments. Strong evidence of criminal fraud and policy violations.\",\n    \"variables\": {\n        \"overallResult\": \"SUBSTANTIATED\",\n        \"investigationSummary\": \"Employee committed financial fraud totaling $75,000 while using unauthorized system access to cover tracks. Multiple policy violations confirmed.\",\n        \"evidenceStrength\": \"STRONG\",\n        \"departmentFindings\": {\n            \"HR\": \"POLICY_VIOLATIONS_CONFIRMED\",\n            \"LEGAL\": \"CRIMINAL_ACTIVITY_SUSPECTED\",\n            \"SECURITY\": \"DATA_BREACH_CONFIRMED\"\n        },\n        \"recommendedActions\": [\n            \"IMMEDIATE_TERMINATION\",\n            \"CRIMINAL_REFERRAL\",\n            \"CIVIL_ACTION\",\n            \"SYSTEM_SECURITY_IMPROVEMENTS\"\n        ],\n        \"followUpRequired\": true,\n        \"reportingRequired\": true,\n        \"investigationComplete\": true\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Case Closure (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685262,\n    \"outcome\": \"CASE_CLOSED\",\n    \"comments\": \"Multi-department case closed with comprehensive resolution across all areas of concern.\",\n    \"variables\": {\n        \"finalStatus\": \"CLOSED_SUBSTANTIATED\",\n        \"closureReason\": \"COMPREHENSIVE_INVESTIGATION_COMPLETE\",\n        \"actionsImplemented\": [\n            \"EMPLOYEE_TERMINATED\",\n            \"CRIMINAL_REFERRAL_SUBMITTED\",\n            \"CIVIL_ACTION_INITIATED\",\n            \"SECURITY_CONTROLS_ENHANCED\"\n        ],\n        \"financialRecovery\": 45000,\n        \"preventiveMeasures\": [\n            \"ENHANCED_ACCESS_CONTROLS\",\n            \"MANDATORY_TRAINING\",\n            \"IMPROVED_MONITORING\"\n        ],\n        \"regulatoryReporting\": \"COMPLETED\",\n        \"lessonsLearned\": \"Need for better cross-department coordination and monitoring\",\n        \"followUpDate\": \"2025-08-28\",\n        \"caseDocumentation\": \"COMPLETE\"\n    }\n}"
               },
               "url": {
                 "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
