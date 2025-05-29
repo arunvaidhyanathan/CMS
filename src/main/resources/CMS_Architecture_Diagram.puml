@@ -1,0 +1,246 @@
+@startuml C4_CaseDefinition
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title 1. Case Definition & Classification System
+
+Person(complainant, "Complainant", "Reports incidents and violations")
+Person(intake_analyst, "Intake Analyst", "Reviews and processes cases")
+
+System_Boundary(case_definition_system, "Case Definition & Classification") {
+    Container(case_intake, "Case Intake Portal", "React Frontend", "Web form for case submission")
+    Container(case_api, "Case Management API", "Spring Boot REST", "Case CRUD operations and validation")
+    Container(classification_engine, "Classification Engine", "Camunda DMN", "Business rules for automatic case routing")
+    Container(case_service, "Case Service", "Spring Boot Service", "Case business logic and validation")
+    ContainerDb(case_master_db, "Case Master Database", "PostgreSQL", "Master case data with full schema")
+}
+
+System_Ext(notification_system, "Notification System", "Email/SMS alerts")
+
+' Case Creation Flow
+Rel(complainant, case_intake, "Submits case via", "HTTPS")
+Rel(case_intake, case_api, "Validates and creates case", "REST API")
+Rel(case_api, case_service, "Processes case data")
+Rel(case_service, case_master_db, "Stores case with generated ID")
+
+' Case Classification Flow  
+Rel(intake_analyst, case_intake, "Reviews submitted cases", "HTTPS")
+Rel(case_api, classification_engine, "Evaluates classification rules", "DMN")
+Rel(classification_engine, case_service, "Returns routing decision")
+Rel(case_service, case_master_db, "Updates case with classification")
+Rel(case_service, notification_system, "Sends assignment notifications")
+
+note right of case_master_db
+**Case Schema:**
+• case_id: Unique business ID
+• case_number: CMS-YYYY-NNNNNN format
+• title, description, complainant info
+• case_type: HARASSMENT, FRAUD, SECURITY, etc.
+• priority: LOW/MEDIUM/HIGH/CRITICAL  
+• status: OPEN → IN_PROGRESS → RESOLVED → CLOSED
+• created_at, updated_at timestamps
+• SLA tracking and deadlines
+end note
+
+note left of classification_engine
+**DMN Classification Rules:**
+
+**Inputs:** allegationType + severity
+**Outputs:** classification + assignedGroup + priority
+
+**Examples:**
+• Harassment + HIGH → HR + HR_SPECIALIST + HIGH
+• Financial Fraud + CRITICAL → LEGAL + LEGAL_COUNSEL + CRITICAL
+• Data Breach + HIGH → CSIS + SECURITY_ANALYST + CRITICAL
+• Multi-type cases → Multiple departments (parallel)
+
+**17 Allegation Types Supported**
+**4 Severity Levels**
+**3 Primary Classifications: HR, LEGAL, CSIS**
+end note
+
+@enduml
+
+@startuml C4_Entitlement_Security
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title 2. Security & Entitlement System (Spring Security RBAC)
+
+Person(user, "System User", "Various roles and permissions")
+
+System_Boundary(security_system, "Spring Security Architecture") {
+    Container(auth_gateway, "Authentication Gateway", "Spring Security Filter Chain", "JWT token validation and security filters")
+    Container(jwt_service, "JWT Token Service", "Spring Boot + JWT", "Token generation, validation, and refresh")
+    Container(rbac_service, "RBAC Authorization Service", "Spring Security", "Role-based access control engine")
+    Container(user_service, "User Management Service", "Spring Boot", "User account and role management")
+    ContainerDb(security_db, "Security Database", "PostgreSQL", "Users, roles, permissions, and audit")
+}
+
+System_Ext(ldap_ad, "Corporate LDAP/AD", "Enterprise user directory")
+
+' Authentication Flow
+Rel(user, auth_gateway, "Login request", "HTTPS + Credentials")
+Rel(auth_gateway, jwt_service, "Validates credentials")
+Rel(jwt_service, user_service, "Retrieves user details")
+Rel(user_service, security_db, "Queries user + roles")
+Rel(jwt_service, user, "Returns JWT token", "Secure token")
+
+' Authorization Flow
+Rel(user, auth_gateway, "API request + JWT", "HTTPS + Bearer token")
+Rel(auth_gateway, rbac_service, "Validates permissions")
+Rel(rbac_service, security_db, "Checks role permissions")
+Rel(rbac_service, auth_gateway, "Authorization decision")
+
+' User Sync
+Rel(user_service, ldap_ad, "Synchronizes users", "LDAP protocol")
+Rel(user_service, security_db, "Updates user accounts")
+
+note right of security_db
+**Security Schema:**
+
+**Users Table:**
+• user_id, username, email
+• password_hash (BCrypt)
+• first_name, last_name
+• user_status: ACTIVE/INACTIVE/SUSPENDED
+
+**Roles Table:**
+• role_id, role_code, role_name
+• access_level: USER/MANAGER/ADMIN
+• role_description
+
+**User_Roles Junction:**
+• Maps users to multiple roles
+• assigned_date, is_active
+end note
+
+note left of rbac_service
+**Role-Based Access Control:**
+
+**@PreAuthorize Annotations:**
+• Method-level security
+• Role and user-based permissions
+• Dynamic permission evaluation
+
+**8 Primary Roles:**
+• **INTAKE_ANALYST** - Case creation/routing
+• **HR_SPECIALIST** - HR case management  
+• **LEGAL_COUNSEL** - Legal/compliance cases
+• **SECURITY_ANALYST** - Security incidents
+• **INVESTIGATOR** - Investigation tasks
+• **IU_MANAGER** - Team management
+• **DIRECTOR** - Final approvals
+• **ADMIN** - System administration
+
+**Permission Matrix:**
+• Each role has specific endpoint access
+• Hierarchical permissions (Director > Manager > User)
+• Data isolation by assignment
+end note
+
+@enduml
+
+@startuml C4_Workflow_System
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title 3. Allegation Workflow System (BPMN Process Orchestration)
+
+Person(process_participants, "Process Participants", "Analysts, Investigators, Directors")
+
+System_Boundary(workflow_system, "Camunda 8.5 Workflow Engine") {
+    Container(zeebe_engine, "Zeebe Process Engine", "Camunda Zeebe", "BPMN workflow execution engine")
+    Container(dmn_engine, "DMN Decision Engine", "Camunda DMN", "Business rules and decision tables")
+    Container(form_service, "Form Service", "Camunda Forms", "Dynamic user task forms")
+    Container(task_service, "Task Management", "Zeebe Client API", "User task assignment and completion")
+    Container(workflow_api, "Workflow REST API", "Spring Boot", "Workflow operation endpoints")
+    ContainerDb(workflow_db, "Workflow Database", "PostgreSQL", "Process instances and task state")
+}
+
+System_Boundary(integration_layer, "Integration Services") {
+    Container(job_workers, "Job Workers", "Spring Boot Components", "Service task handlers and listeners")
+    Container(audit_service, "Audit Service", "Spring Boot", "Workflow transition logging")
+    Container(notification_service, "Notification Service", "Spring Boot", "Process-driven notifications")
+}
+
+' Workflow Execution
+Rel(workflow_api, zeebe_engine, "Starts process instances")
+Rel(zeebe_engine, dmn_engine, "Evaluates business rules")
+Rel(zeebe_engine, task_service, "Creates user tasks")
+Rel(task_service, form_service, "Renders task forms")
+Rel(process_participants, form_service, "Completes tasks via", "Web forms")
+Rel(form_service, task_service, "Submits task completion")
+Rel(task_service, zeebe_engine, "Advances process flow")
+
+' Service Integration
+Rel(zeebe_engine, job_workers, "Executes service tasks")
+Rel(job_workers, audit_service, "Logs workflow events")
+Rel(job_workers, notification_service, "Triggers notifications")
+Rel(zeebe_engine, workflow_db, "Persists process state")
+
+note right of zeebe_engine
+**BPMN Workflow Process:**
+
+**Main Process: "Process_CMS_Workflow"**
+
+1. **Start Event** - Case Created
+2. **User Task** - EO Intake (Intake Analyst)
+3. **Business Rule Task** - DMN Classification
+4. **Exclusive Gateway** - Route by Classification
+   • Single Dept → Direct Assignment
+   • Multi Dept → Parallel Subprocess
+5. **User Tasks** - Department Processing
+   • HR Assignment Form
+   • Legal Assignment Form  
+   • CSIS Assignment Form
+6. **User Task** - Investigation Process
+7. **User Task** - Case Closure (Director)
+8. **End Event** - Case Closed
+
+**Parallel Processing** for complex cases
+**SLA Timers** and escalation
+**Error Handling** and compensation
+end note
+
+note left of dmn_engine
+**DMN Business Rules:**
+
+**Decision Table: "allegation-classification"**
+
+**Hit Policy:** COLLECT (multiple outputs)
+
+**Input Columns:**
+• allegationType (17 supported types)
+• severity (LOW/MEDIUM/HIGH/CRITICAL)
+
+**Output Columns:**
+• classification (HR/LEGAL/CSIS)
+• assignedGroup (specialist group)
+• priority (calculated priority)
+
+**Sample Rules:**
+• Harassment + HIGH → HR + HR_SPECIALIST + HIGH
+• Fraud + CRITICAL → LEGAL + LEGAL_COUNSEL + CRITICAL
+• Data Breach + ANY → CSIS + SECURITY_ANALYST + CRITICAL
+
+**Default Rule** routes to HR for unknown cases
+end note
+
+note bottom of job_workers
+**Service Task Handlers:**
+
+**Job Worker Types:**
+• **initialize-case** - Case setup
+• **create-work-item** - Task creation  
+• **send-notification** - Email alerts
+• **audit-transition** - Event logging
+• **compliance-check** - SLA monitoring
+• **task-assignment** - Auto-assignment
+• **case-escalation** - Deadline handling
+
+**Event Listeners:**
+• Task assignment listener
+• Status change listener  
+• Deadline monitoring
+• Error handling
+end note
+
+@enduml

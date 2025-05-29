@@ -37,7 +37,7 @@ public class JwtDebugController {
             // Decode JWT using your existing JWT utility
             // You'll need to replace this with your actual JWT utility method
             Claims claims = Jwts.parser()
-                .setSigningKey("eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJoci5zcGVjaWFsaXN0IiwiaWF0IjoxNzQ4NDUzOTIzLCJleHAiOjE3NDg1NDAzMjMsInVzZXJJZCI6Miwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfSFJfU1BFQ0lBTElTVCJ9XX0.ZltUaeVHIcThU6uZ1-5jJPm5CvRq3DzRyalK2P6s6vuXKwBbc-WaGv_W5wtw94Bv") // Replace with your actual secret key
+                .setSigningKey(" Replace with your actual secret key")
                 .parseClaimsJws(jwtToken)
                 .getBody();
             
