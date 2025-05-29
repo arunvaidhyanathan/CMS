@@ -1,0 +1,1628 @@
+{
+    "info": {
+      "name": "CMS Workflow API Testing",
+      "description": "Complete API collection for testing the Case Management System",
+      "version": "1.0.0",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:8080",
+        "type": "string"
+      },
+      {
+        "key": "intakeToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "hrToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "legalToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "securityToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "investigatorToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "directorToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "case1Id",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "case2Id",
+        "value": "",
+        "type": "string"
+      }
+    ],
+    "item": [
+      {
+        "name": "01. Setup & Authentication",
+        "item": [
+          {
+            "name": "Reset Passwords (Dev Only)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/dev/reset-passwords",
+                "host": ["{{baseUrl}}"],
+                "path": ["dev", "reset-passwords"]
+              }
+            }
+          },
+          {
+            "name": "Login - Intake Analyst",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    pm.collectionVariables.set('intakeToken', response.token);",
+                    "    pm.test('Login successful', () => {",
+                    "        pm.expect(response.success).to.be.true;",
+                    "    });",
+                    "}"
+                  ]
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"intake.analyst\",\n    \"password\": \"demo123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            }
+          },
+          {
+            "name": "Login - HR Specialist",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    pm.collectionVariables.set('hrToken', response.token);",
+                    "}"
+                  ]
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"hr.specialist\",\n    \"password\": \"demo123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            }
+          },
+          {
+            "name": "Login - Legal Counsel",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    pm.collectionVariables.set('legalToken', response.token);",
+                    "}"
+                  ]
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"legal.counsel\",\n    \"password\": \"demo123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            }
+          },
+          {
+            "name": "Login - Security Analyst",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    pm.collectionVariables.set('securityToken', response.token);",
+                    "}"
+                  ]
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"security.analyst\",\n    \"password\": \"demo123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            }
+          },
+          {
+            "name": "Login - Investigator",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    pm.collectionVariables.set('investigatorToken', response.token);",
+                    "}"
+                  ]
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"investigator\",\n    \"password\": \"demo123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            }
+          },
+          {
+            "name": "Login - Director",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    pm.collectionVariables.set('directorToken', response.token);",
+                    "}"
+                  ]
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"director\",\n    \"password\": \"demo123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "02. Workflow Setup",
+        "item": [
+          {
+            "name": "Deploy BPMN & DMN Processes",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/processes/deploy",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "processes", "deploy"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "03. Case Creation",
+        "item": [
+          {
+            "name": "Create Harassment Case (Single Dept)",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 201) {",
+                    "    const response = pm.response.json();",
+                    "    pm.collectionVariables.set('case1Id', response.caseId);",
+                    "    pm.test('Case created successfully', () => {",
+                    "        pm.expect(response.caseNumber).to.include('CMS-');",
+                    "    });",
+                    "}"
+                  ]
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"title\": \"Workplace Harassment Complaint\",\n    \"description\": \"Employee reports inappropriate behavior from supervisor during team meetings\",\n    \"caseTypeCode\": \"HARASSMENT\",\n    \"allegationType\": \"Sexual Harassment\",\n    \"severity\": \"HIGH\",\n    \"priority\": \"HIGH\",\n    \"complainantName\": \"Jane Smith\",\n    \"complainantEmail\": \"jane.smith@company.com\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases"]
+              }
+            }
+          },
+          {
+            "name": "Create Multi-Dept Fraud Case",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 201) {",
+                    "    const response = pm.response.json();",
+                    "    pm.collectionVariables.set('case2Id', response.caseId);",
+                    "}"
+                  ]
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"title\": \"Financial Fraud with Security Breach\",\n    \"description\": \"Employee suspected of embezzling funds and accessing unauthorized systems\",\n    \"caseTypeCode\": \"FRAUD\",\n    \"allegationType\": \"Financial Fraud,Data Breach\",\n    \"severity\": \"CRITICAL\",\n    \"priority\": \"CRITICAL\",\n    \"complainantName\": \"Internal Audit\",\n    \"complainantEmail\": \"audit@company.com\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "04. Work Items & Tasks",
+        "item": [
+          {
+            "name": "Get My Work Items - Intake",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/my-workitems",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "my-workitems"]
+              }
+            }
+          },
+          {
+            "name": "Get My Work Items - HR",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/my-workitems",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "my-workitems"]
+              }
+            }
+          },
+          {
+            "name": "Get My Work Items - Legal",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{legalToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/my-workitems",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "my-workitems"]
+              }
+            }
+          },
+          {
+            "name": "Get My Work Items - Security",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{securityToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/my-workitems",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "my-workitems"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "05. Task Completion Flow",
+        "item": [
+          {
+            "name": "Complete Intake Task",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685251,\n    \"outcome\": \"INTAKE_COMPLETE\",\n    \"comments\": \"Initial case intake completed. Case routed to appropriate department.\",\n    \"variables\": {\n        \"intakeDecision\": \"PROCEED\",\n        \"initialAssessment\": \"HIGH_PRIORITY\",\n        \"routingDecision\": \"HR_DEPARTMENT\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete HR Assignment Task",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685252,\n    \"outcome\": \"ACCEPTED\",\n    \"comments\": \"Case accepted by HR. Investigation will be initiated.\",\n    \"variables\": {\n        \"assignmentDecision\": \"ACCEPTED\",\n        \"estimatedDuration\": \"14_DAYS\",\n        \"assignedInvestigator\": \"investigator\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Investigation Task",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{investigatorToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685253,\n    \"outcome\": \"INVESTIGATION_COMPLETE\",\n    \"comments\": \"Investigation completed. Evidence collected and interviews conducted.\",\n    \"variables\": {\n        \"investigationResult\": \"SUBSTANTIATED\",\n        \"recommendedAction\": \"DISCIPLINARY_ACTION\",\n        \"evidenceCollected\": true,\n        \"interviewsCompleted\": 3\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Case Closure",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685254,\n    \"outcome\": \"CASE_CLOSED\",\n    \"comments\": \"Case closed after thorough review. Disciplinary action implemented.\",\n    \"variables\": {\n        \"finalStatus\": \"CLOSED_SUBSTANTIATED\",\n        \"closureReason\": \"INVESTIGATION_COMPLETE\",\n        \"disciplinaryAction\": \"FORMAL_WARNING\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "complete"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "06. Assignment Operations",
+        "item": [
+            {
+                "name": "Assign Case to Intake Analyst",
+                "request": {
+                  "method": "POST",
+                  "header": [
+                    {
+                      "key": "Authorization",
+                      "value": "Bearer {{directorToken}}"
+                    }
+                  ],
+                  "url": {
+                    "raw": "{{baseUrl}}/cases/{{case1Id}}/assign?userId=1&comments=Assigned to Intake Analyst for harassment investigation",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["cases", "{{case1Id}}", "assign"],
+                    "query": [
+                      {
+                        "key": "userId",
+                        "value": "1",
+                        "description": "Intake Analyst user ID"
+                      },
+                      {
+                        "key": "comments",
+                        "value": "Assigned to Intake Analyst for harassment investigation"
+                      }
+                    ]
+                  }
+                }
+              },
+          {
+            "name": "Assign Case to HR Specialist",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/assign?userId=2&comments=Assigned to HR specialist for harassment investigation",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "assign"],
+                "query": [
+                  {
+                    "key": "userId",
+                    "value": "2",
+                    "description": "HR Specialist user ID"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Assigned to HR specialist for harassment investigation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Assign Case to Legal Counsel",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/assign?userId=3&comments=Assigned to legal counsel for fraud investigation",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "assign"],
+                "query": [
+                  {
+                    "key": "userId",
+                    "value": "3",
+                    "description": "Legal Counsel user ID"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Assigned to legal counsel for fraud investigation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Assign Case to Security Analyst",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/assign?userId=4&comments=Assigned to security analyst for breach investigation",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "assign"],
+                "query": [
+                  {
+                    "key": "userId",
+                    "value": "4",
+                    "description": "Security Analyst user ID"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Assigned to security analyst for breach investigation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Assign Case to Investigator",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/assign?userId=5&comments=Assigned to investigator for detailed investigation",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "assign"],
+                "query": [
+                  {
+                    "key": "userId",
+                    "value": "5",
+                    "description": "Investigator user ID"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Assigned to investigator for detailed investigation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Bulk Assignment for Multi-Dept Case",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"assignments\": [\n        {\n            \"userId\": 2,\n            \"department\": \"HR\",\n            \"role\": \"HR_SPECIALIST\",\n            \"comments\": \"Handle HR aspects of financial fraud case\"\n        },\n        {\n            \"userId\": 3,\n            \"department\": \"LEGAL\",\n            \"role\": \"LEGAL_COUNSEL\",\n            \"comments\": \"Handle legal aspects and compliance issues\"\n        },\n        {\n            \"userId\": 4,\n            \"department\": \"SECURITY\",\n            \"role\": \"SECURITY_ANALYST\",\n            \"comments\": \"Investigate security breach and data access violations\"\n        }\n    ],\n    \"caseId\": {{case2Id}},\n    \"assignmentType\": \"PARALLEL\",\n    \"priority\": \"CRITICAL\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/bulk-assign",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "bulk-assign"]
+              }
+            }
+          },
+          {
+            "name": "Get Case Assignments",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/assignments",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "assignments"]
+              }
+            }
+          },
+          {
+            "name": "Reassign Case from HR to Legal",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/reassign?fromUserId=2&toUserId=3&reason=Requires legal expertise",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "reassign"],
+                "query": [
+                  {
+                    "key": "fromUserId",
+                    "value": "2",
+                    "description": "Current assignee (HR Specialist)"
+                  },
+                  {
+                    "key": "toUserId",
+                    "value": "3",
+                    "description": "New assignee (Legal Counsel)"
+                  },
+                  {
+                    "key": "reason",
+                    "value": "Requires legal expertise"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get User Assignments",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/user/2/assignments",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "user", "2", "assignments"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "07. Multi-Department Flow",
+        "item": [
+          {
+            "name": "Check Multi-Dept Work Items - HR",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/workitems/2?status=PENDING",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "workitems", "2"],
+                "query": [
+                  {
+                    "key": "status",
+                    "value": "PENDING"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Check Multi-Dept Work Items - Legal",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{legalToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/workitems/3?status=PENDING",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "workitems", "3"],
+                "query": [
+                  {
+                    "key": "status",
+                    "value": "PENDING"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Check Multi-Dept Work Items - Security",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{securityToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/workitems/4?status=PENDING",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "workitems", "4"],
+                "query": [
+                  {
+                    "key": "status",
+                    "value": "PENDING"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Complete EO Assignment - HR (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685255,\n    \"outcome\": \"HR_ASSIGNMENT_ACCEPTED\",\n    \"comments\": \"HR department accepts case assignment for policy violation review\",\n    \"variables\": {\n        \"assignmentDecision\": \"ACCEPTED\",\n        \"departmentReadiness\": \"READY\",\n        \"estimatedCompletionDays\": 7,\n        \"specialistAssigned\": \"hr.specialist\",\n        \"reviewType\": \"POLICY_COMPLIANCE\",\n        \"priorityLevel\": \"HIGH\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete EO Assignment - Legal (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{legalToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685256,\n    \"outcome\": \"LEGAL_ASSIGNMENT_ACCEPTED\",\n    \"comments\": \"Legal department accepts case assignment for fraud investigation\",\n    \"variables\": {\n        \"assignmentDecision\": \"ACCEPTED\",\n        \"departmentReadiness\": \"READY\",\n        \"estimatedCompletionDays\": 14,\n        \"counselAssigned\": \"legal.counsel\",\n        \"reviewType\": \"CRIMINAL_FRAUD\",\n        \"complianceRisk\": \"HIGH\",\n        \"externalCounselRequired\": false\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete EO Assignment - Security (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{securityToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685257,\n    \"outcome\": \"SECURITY_ASSIGNMENT_ACCEPTED\",\n    \"comments\": \"Security department accepts case assignment for data breach investigation\",\n    \"variables\": {\n        \"assignmentDecision\": \"ACCEPTED\",\n        \"departmentReadiness\": \"READY\",\n        \"estimatedCompletionDays\": 5,\n        \"analystAssigned\": \"security.analyst\",\n        \"reviewType\": \"DATA_BREACH\",\n        \"forensicsRequired\": true,\n        \"systemsAffected\": \"FINANCIAL_SYSTEM\",\n        \"incidentSeverity\": \"HIGH\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete HR Investigation (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685258,\n    \"outcome\": \"HR_INVESTIGATION_COMPLETE\",\n    \"comments\": \"HR investigation completed. Multiple policy violations confirmed.\",\n    \"variables\": {\n        \"investigationResult\": \"POLICY_VIOLATIONS_CONFIRMED\",\n        \"violationsFound\": [\n            \"FINANCIAL_POLICY_VIOLATION\",\n            \"CODE_OF_CONDUCT_BREACH\",\n            \"CONFLICT_OF_INTEREST\"\n        ],\n        \"employeeInterviewed\": true,\n        \"witnessesInterviewed\": 2,\n        \"documentationReviewed\": true,\n        \"recommendedAction\": \"TERMINATION\",\n        \"disciplinaryHistory\": \"PREVIOUS_WARNINGS\",\n        \"hrRecommendation\": \"IMMEDIATE_TERMINATION\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Legal Investigation (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{legalToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685259,\n    \"outcome\": \"LEGAL_INVESTIGATION_COMPLETE\",\n    \"comments\": \"Legal investigation completed. Criminal activity suspected with sufficient evidence.\",\n    \"variables\": {\n        \"investigationResult\": \"CRIMINAL_ACTIVITY_SUSPECTED\",\n        \"evidenceQuality\": \"STRONG\",\n        \"criminalElements\": [\n            \"EMBEZZLEMENT\",\n            \"FRAUD\",\n            \"COMPUTER_CRIMES\"\n        ],\n        \"financialLoss\": 75000,\n        \"prosecutionRecommended\": true,\n        \"lawEnforcementNotified\": false,\n        \"civilLiabilityRisk\": \"HIGH\",\n        \"regulatoryReportingRequired\": true,\n        \"legalRecommendation\": \"CRIMINAL_REFERRAL_AND_CIVIL_ACTION\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Security Investigation (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{securityToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685260,\n    \"outcome\": \"SECURITY_INVESTIGATION_COMPLETE\",\n    \"comments\": \"Security investigation completed. Data breach confirmed with unauthorized access to financial systems.\",\n    \"variables\": {\n        \"investigationResult\": \"DATA_BREACH_CONFIRMED\",\n        \"breachScope\": \"FINANCIAL_RECORDS\",\n        \"unauthorizedAccess\": true,\n        \"dataExfiltrated\": true,\n        \"recordsAffected\": 1250,\n        \"accessMethod\": \"PRIVILEGED_ACCOUNT_ABUSE\",\n        \"forensicsCompleted\": true,\n        \"vulnerabilitiesFound\": [\n            \"WEAK_ACCESS_CONTROLS\",\n            \"INSUFFICIENT_MONITORING\",\n            \"PRIVILEGE_ESCALATION\"\n        ],\n        \"systemsSecured\": true,\n        \"incidentContained\": true,\n        \"securityRecommendation\": \"IMMEDIATE_ACCESS_REVOCATION_AND_SYSTEM_HARDENING\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Final Investigation (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{investigatorToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685261,\n    \"outcome\": \"INVESTIGATION_COMPLETE\",\n    \"comments\": \"Comprehensive investigation completed across all departments. Strong evidence of criminal fraud and policy violations.\",\n    \"variables\": {\n        \"overallResult\": \"SUBSTANTIATED\",\n        \"investigationSummary\": \"Employee committed financial fraud totaling $75,000 while using unauthorized system access to cover tracks. Multiple policy violations confirmed.\",\n        \"evidenceStrength\": \"STRONG\",\n        \"departmentFindings\": {\n            \"HR\": \"POLICY_VIOLATIONS_CONFIRMED\",\n            \"LEGAL\": \"CRIMINAL_ACTIVITY_SUSPECTED\",\n            \"SECURITY\": \"DATA_BREACH_CONFIRMED\"\n        },\n        \"recommendedActions\": [\n            \"IMMEDIATE_TERMINATION\",\n            \"CRIMINAL_REFERRAL\",\n            \"CIVIL_ACTION\",\n            \"SYSTEM_SECURITY_IMPROVEMENTS\"\n        ],\n        \"followUpRequired\": true,\n        \"reportingRequired\": true,\n        \"investigationComplete\": true\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Complete Case Closure (Multi-Dept)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685262,\n    \"outcome\": \"CASE_CLOSED\",\n    \"comments\": \"Multi-department case closed with comprehensive resolution across all areas of concern.\",\n    \"variables\": {\n        \"finalStatus\": \"CLOSED_SUBSTANTIATED\",\n        \"closureReason\": \"COMPREHENSIVE_INVESTIGATION_COMPLETE\",\n        \"actionsImplemented\": [\n            \"EMPLOYEE_TERMINATED\",\n            \"CRIMINAL_REFERRAL_SUBMITTED\",\n            \"CIVIL_ACTION_INITIATED\",\n            \"SECURITY_CONTROLS_ENHANCED\"\n        ],\n        \"financialRecovery\": 45000,\n        \"preventiveMeasures\": [\n            \"ENHANCED_ACCESS_CONTROLS\",\n            \"MANDATORY_TRAINING\",\n            \"IMPROVED_MONITORING\"\n        ],\n        \"regulatoryReporting\": \"COMPLETED\",\n        \"lessonsLearned\": \"Need for better cross-department coordination and monitoring\",\n        \"followUpDate\": \"2025-08-28\",\n        \"caseDocumentation\": \"COMPLETE\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "complete"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "07. Case Management",
+        "item": [
+          {
+            "name": "Get Case Details",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}"]
+              }
+            }
+          },
+          {
+            "name": "Update Case Status",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case2Id}}/status?status=IN_PROGRESS&comments=Case investigation started",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case2Id}}", "status"],
+                "query": [
+                  {
+                    "key": "status",
+                    "value": "IN_PROGRESS"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Case investigation started"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Assign Case to User",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/assign?userId=2&comments=Assigned to HR specialist",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "assign"],
+                "query": [
+                  {
+                    "key": "userId",
+                    "value": "2"
+                  },
+                  {
+                    "key": "comments",
+                    "value": "Assigned to HR specialist"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get My Cases",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/my-cases",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "my-cases"]
+              }
+            }
+          },
+          {
+            "name": "Get Case Audit Trail",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/{{case1Id}}/audit-trail",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "{{case1Id}}", "audit-trail"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "08. Search & Reports",
+        "item": [
+          {
+            "name": "Search Cases by Status",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/search?status=OPEN&priority=HIGH",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "search"],
+                "query": [
+                  {
+                    "key": "status",
+                    "value": "OPEN"
+                  },
+                  {
+                    "key": "priority",
+                    "value": "HIGH"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Search Cases by Allegation Type",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/search?allegationType=Harassment",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "search"],
+                "query": [
+                  {
+                    "key": "allegationType",
+                    "value": "Harassment"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Case Statistics",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/statistics",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "statistics"]
+              }
+            }
+          },
+          {
+            "name": "Export Cases to CSV",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/export?format=csv&status=OPEN",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "export"],
+                "query": [
+                  {
+                    "key": "format",
+                    "value": "csv"
+                  },
+                  {
+                    "key": "status",
+                    "value": "OPEN"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "09. User Management",
+        "item": [
+          {
+            "name": "Get User Profile",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/users/profile",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "profile"]
+              }
+            }
+          },
+          {
+            "name": "Get All Users (Admin)",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/users",
+                "host": ["{{baseUrl}}"],
+                "path": ["users"]
+              }
+            }
+          },
+          {
+            "name": "Get User by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/users/user-id/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "user-id", "1"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "10. Workflow Operations",
+        "item": [
+          {
+            "name": "Start Workflow Manually",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"caseId\": {{case1Id}},\n    \"caseNumber\": \"CMS-2025-000001\",\n    \"allegationType\": \"Sexual Harassment\",\n    \"severity\": \"HIGH\",\n    \"priority\": \"HIGH\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/workflow/start/{{case1Id}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["workflow", "start", "{{case1Id}}"]
+              }
+            }
+          },
+          {
+            "name": "Complete Task via Workflow",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{hrToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"taskKey\": 2251799813685252,\n    \"variables\": {\n        \"outcome\": \"ACCEPTED\",\n        \"comments\": \"Task completed via workflow endpoint\"\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/workflow/complete-task",
+                "host": ["{{baseUrl}}"],
+                "path": ["workflow", "complete-task"]
+              }
+            }
+          },
+          {
+            "name": "Get Process Variables",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{directorToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/workflow/process-variables/2251799813685250",
+                "host": ["{{baseUrl}}"],
+                "path": ["workflow", "process-variables", "2251799813685250"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "11. Health Checks",
+        "item": [
+          {
+            "name": "Application Health",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/actuator/health",
+                "host": ["{{baseUrl}}"],
+                "path": ["actuator", "health"]
+              }
+            }
+          },
+          {
+            "name": "Case Controller Health",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/health",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "health"]
+              }
+            }
+          },
+          {
+            "name": "Workflow Service Health",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/workflow/health",
+                "host": ["{{baseUrl}}"],
+                "path": ["workflow", "health"]
+              }
+            }
+          },
+          {
+            "name": "User Service Health",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/users/health",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "health"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "12. Utility Operations",
+        "item": [
+          {
+            "name": "Generate Case Number",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/generate-case-number",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "generate-case-number"]
+              }
+            }
+          },
+          {
+            "name": "Validate Token",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/auth/validate",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "validate"]
+              }
+            }
+          },
+          {
+            "name": "Get Case Version Info",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/version",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "version"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "13. Error Testing",
+        "item": [
+          {
+            "name": "Invalid Case Creation",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"title\": \"\",\n    \"description\": \"Missing required fields\",\n    \"caseTypeCode\": \"INVALID_TYPE\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/cases",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases"]
+              }
+            }
+          },
+          {
+            "name": "Unauthorized Access",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer invalid_token"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "1"]
+              }
+            }
+          },
+          {
+            "name": "Missing Authentication",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/cases/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "1"]
+              }
+            }
+          },
+          {
+            "name": "Non-existent Case",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{intakeToken}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/cases/999999",
+                "host": ["{{baseUrl}}"],
+                "path": ["cases", "999999"]
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "auth": {
+      "type": "bearer",
+      "bearer": [
+        {
+          "key": "token",
+          "value": "{{token}}",
+          "type": "string"
+        }
+      ]
+    }
+  }

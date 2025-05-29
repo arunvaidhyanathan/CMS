@@ -1,0 +1,151 @@
+{
+  "type": "default",
+  "id": "Form_0d1tppz",
+  "components": [{
+  "components": [
+    {
+      "label": "Case Details",
+      "type": "group",
+      "layout": {
+        "row": "Row_case_details",
+        "columns": null
+      },
+      "id": "Field_case_details_group",
+      "components": [
+        {
+          "label": "Case Number",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_case_num",
+            "columns": 4
+          },
+          "id": "Field_case_num_hr",
+          "key": "caseNumber",
+          "readonly": true
+        },
+        {
+          "label": "Allegation Type",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_allege_type",
+            "columns": 4
+          },
+          "id": "Field_allege_type_hr",
+          "key": "allegationType",
+          "readonly": true
+        },
+        {
+          "label": "Classification",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_classification",
+            "columns": 4
+          },
+          "id": "Field_classification_hr",
+          "key": "classification",
+          "readonly": true
+        }
+      ]
+    },
+    {
+      "label": "HR Specialist Assignment",
+      "type": "group",
+      "layout": {
+        "row": "Row_hr_assignment",
+        "columns": null
+      },
+      "id": "Field_hr_assignment_group",
+      "components": [
+        {
+          "label": "Assigned HR Specialist",
+          "type": "select",
+          "layout": {
+            "row": "Row_hr_specialist",
+            "columns": 6
+          },
+          "id": "Field_hr_specialist",
+          "key": "assignedHRSpecialist",
+          "validate": {
+            "required": true
+          },
+          "values": [
+            {"label": "Sarah Johnson - HR Specialist", "value": "sarah.johnson"},
+            {"label": "Michael Chen - HR Specialist", "value": "michael.chen"},
+            {"label": "Lisa Rodriguez - Senior HR Specialist", "value": "lisa.rodriguez"},
+            {"label": "David Thompson - HR Generalist", "value": "david.thompson"}
+          ]
+        },
+        {
+          "label": "Priority Level",
+          "type": "select",
+          "layout": {
+            "row": "Row_priority_hr",
+            "columns": 6
+          },
+          "id": "Field_priority_hr",
+          "key": "hrPriority",
+          "validate": {
+            "required": true
+          },
+          "values": [
+            {"label": "Low", "value": "LOW"},
+            {"label": "Medium", "value": "MEDIUM"},
+            {"label": "High", "value": "HIGH"},
+            {"label": "Critical", "value": "CRITICAL"}
+          ]
+        }
+      ]
+    },
+    {
+      "label": "HR Assessment",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_hr_assessment",
+        "columns": null
+      },
+      "id": "Field_hr_assessment",
+      "key": "hrAssessment",
+      "validate": {
+        "required": true
+      },
+      "description": "Provide HR department assessment and next steps"
+    },
+    {
+      "label": "Estimated Timeline (Days)",
+      "type": "number",
+      "layout": {
+        "row": "Row_timeline",
+        "columns": 6
+      },
+      "id": "Field_timeline_hr",
+      "key": "estimatedTimelineDays",
+      "validate": {
+        "required": true,
+        "min": 1,
+        "max": 365
+      }
+    },
+    {
+      "label": "Assign to Investigation Unit",
+      "action": "submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_submit_hr",
+        "columns": null
+      },
+      "id": "Field_submit_hr"
+    }
+  ],
+  "type": "default",
+  "id": "hrAssignmentForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.35.0"
+  },
+  "schemaVersion": 18
+}],
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0"
+}
