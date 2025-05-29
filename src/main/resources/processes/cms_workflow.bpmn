@@ -32,7 +32,7 @@
     
     <bpmn:businessRuleTask id="Task_Classification" name="Classify Allegations">
       <bpmn:extensionElements>
-        <zeebe:calledDecision decisionId="allegation-classification-dmn" resultVariable="classification" />
+        <zeebe:calledDecision decisionId="allegation-classification" resultVariable="classification" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_to_Classification</bpmn:incoming>
       <bpmn:outgoing>Flow_to_Gateway</bpmn:outgoing>

@@ -45,11 +45,11 @@ public LoginResponse authenticateUser(LoginRequest loginRequest) {
         // ADD DEBUG: Check if user exists in database first
         User userFromDb = userRepository.findByUsername(loginRequest.getUsername()).orElse(null);
         if (userFromDb == null) {
-            logger.error("❌ User not found in database: {}", loginRequest.getUsername());
+            logger.error("User not found in database: {}", loginRequest.getUsername());
             throw new RuntimeException("User not found");
         }
         
-        logger.info("✅ User found in database: {}", userFromDb.getUsername());
+        logger.info("User found in database: {}", userFromDb.getUsername());
         logger.info("User ID: {}, Email: {}", userFromDb.getUserId(), userFromDb.getEmail());
         logger.info("Password hash from DB: {}", userFromDb.getPasswordHash());
         logger.info("User status: {}, Enabled: {}", userFromDb.getUserStatus(), userFromDb.isEnabled());
@@ -60,7 +60,7 @@ public LoginResponse authenticateUser(LoginRequest loginRequest) {
         logger.info("Manual password verification result: {}", passwordMatches);
         
         if (!passwordMatches) {
-            logger.error("❌ Password does not match!");
+            logger.error("Password does not match!");
             logger.error("Provided password: '{}'", loginRequest.getPassword());
             logger.error("Expected hash: {}", userFromDb.getPasswordHash());
             
@@ -72,7 +72,7 @@ public LoginResponse authenticateUser(LoginRequest loginRequest) {
             throw new RuntimeException("Password verification failed");
         }
         
-        logger.info("✅ Manual password verification successful");
+        logger.info("Manual password verification successful");
         
         // NOW TRY SPRING SECURITY AUTHENTICATION
         logger.info("Attempting Spring Security authentication...");
@@ -84,14 +84,14 @@ public LoginResponse authenticateUser(LoginRequest loginRequest) {
             )
         );
 
-        logger.info("✅ Spring Security authentication successful");
+        logger.info("Spring Security authentication successful");
         logger.info("Authentication object: {}", authentication);
         logger.info("Principal: {}", authentication.getPrincipal());
         logger.info("Authorities: {}", authentication.getAuthorities());
 
         // GENERATE JWT TOKEN
         String jwt = tokenProvider.generateToken(authentication);
-        logger.info("✅ JWT token generated successfully");
+        logger.info("JWT token generated successfully");
         
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         
@@ -118,11 +118,11 @@ public LoginResponse authenticateUser(LoginRequest loginRequest) {
                 .build();
 
     } catch (AuthenticationException e) {
-        logger.error("❌ AuthenticationException: {}", e.getMessage());
+        logger.error("AuthenticationException: {}", e.getMessage());
         logger.error("Exception type: {}", e.getClass().getSimpleName());
         throw new RuntimeException("Invalid credentials");
     } catch (Exception e) {
-        logger.error("❌ Unexpected exception during authentication: {}", e.getMessage(), e);
+        logger.error("Unexpected exception during authentication: {}", e.getMessage(), e);
         throw new RuntimeException("Authentication failed: " + e.getMessage());
     }
 }

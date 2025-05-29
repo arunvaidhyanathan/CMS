@@ -151,7 +151,9 @@ public class CaseController {
      * Assign case to a user
      */
     @PostMapping("/{caseId}/assign")
-    @PreAuthorize("hasAnyRole('INTAKE_ANALYST', 'IU_MANAGER', 'DIRECTOR', 'ADMIN')")
+    // @PreAuthorize("hasAnyRole('INTAKE_ANALYST', 'IU_MANAGER', 'DIRECTOR', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('INTAKE_ANALYST', 'IU_MANAGER', 'DIRECTOR', 'ADMIN') or " +
+              "(hasAnyRole('HR_SPECIALIST', 'LEGAL_COUNSEL', 'SECURITY_ANALYST', 'INVESTIGATOR') and #userId == authentication.principal.userId)")
     public ResponseEntity<Void> assignCase(
             @PathVariable Long caseId,
             @RequestParam Long userId,

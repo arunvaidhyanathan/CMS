@@ -50,6 +50,8 @@ zeebe:
   client:
     broker:
       gateway-address: localhost:26500
+    rest:
+      address: localhost:8088
     security:
       plaintext: true
     worker:

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.citi.cms.config.ZeebeRestService;
 import com.citi.cms.dto.request.TaskCompleteRequest;
 
 import java.util.HashMap;
@@ -29,6 +30,9 @@ import java.io.IOException;
 public class WorkflowServiceImpl implements WorkflowService {
 
     private static final Logger logger = LoggerFactory.getLogger(WorkflowServiceImpl.class);
+
+    @Autowired
+    private ZeebeRestService zeebeRestService;
 
     @Autowired
     private ZeebeClient zeebeClient;
@@ -88,10 +92,18 @@ public class WorkflowServiceImpl implements WorkflowService {
         
         try {
             // Complete the Zeebe task
-            zeebeClient.newCompleteCommand(taskKey)
-                    .variables(variables)
-                    .send()
-                    .join();
+            // zeebeClient.newCompleteCommand(taskKey)
+            //         .variables(variables)
+            //         .send()
+            //         .join();
+            // zeebeClient.newUserTaskCompleteCommand(taskKey)
+            //     .variables(variables)
+            //     .action("COMPLETE") // Optional custom action
+            //     .send()
+            //     .join();
+            
+                // Use the REST service instead of Java client
+                zeebeRestService.completeUserTask(taskKey, variables);
 
             // Record the transition in database
             recordCaseTransition(taskKey, variables, userId);
