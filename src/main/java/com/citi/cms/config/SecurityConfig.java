@@ -69,6 +69,10 @@ public class SecurityConfig {
                         // Development endpoints (only in dev profile)
                         .requestMatchers("/dev/**").permitAll()
                         .requestMatchers("/test/**").permitAll()
+
+                        // Schema Editor endpoints (dev tool - open access)
+                        .requestMatchers("/schema/**").permitAll()
+                        .requestMatchers("/query/**").permitAll()
                         
                         // Protected endpoints with role-based access
                         .requestMatchers("/cases/**").hasAnyRole("INTAKE_ANALYST", "HR_SPECIALIST", "LEGAL_COUNSEL", "SECURITY_ANALYST", "INVESTIGATOR", "DIRECTOR", "ADMIN")
